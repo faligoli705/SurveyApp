@@ -1,11 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using SurveyApp.DomainClass.Common;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SurveyApp.DomainClass.Entities
 {
@@ -17,5 +14,12 @@ namespace SurveyApp.DomainClass.Entities
         [Required]
         [MaxLength(100)]
         public string Description { get; set; }
+    }
+    public class RoleConfiguration : IEntityTypeConfiguration<Roles>
+    {
+        public void Configure(EntityTypeBuilder<Roles> builder)
+        {
+            builder.Property(p => p.RoleName).IsRequired().HasMaxLength(50);
+        }
     }
 }

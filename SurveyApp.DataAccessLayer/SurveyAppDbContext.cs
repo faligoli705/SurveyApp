@@ -1,13 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using SurveyApp.DomainClass.Common;
 using SurveyApp.DomainClass.Entities;
-using SurveyApp.Infrastucture.Utilities;
+ using SurveyApp.Infrastucture.Utilities;
 using System;
-using System.Linq;
-using System.Reflection;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace SurveyApp.DataAccessLayer
 {

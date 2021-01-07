@@ -1,4 +1,4 @@
-﻿using SurveyApp.DomainClass.Common;
+﻿using SurveyApp.DomainClass.Entities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;

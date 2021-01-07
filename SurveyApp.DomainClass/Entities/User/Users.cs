@@ -1,12 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using SurveyApp.DomainClass.Common;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SurveyApp.DomainClass.Entities
 {
@@ -24,18 +21,24 @@ namespace SurveyApp.DomainClass.Entities
         [MaxLength(100)]
         public string LName { get; set; }
         public GenderType Gender { get; set; }
-        public EmailAddressAttribute Email { get; set; }
+        public EmailAddressAttribute EmailUser { get; set; }
         [Required]
         [MaxLength(500)]
         public string UserPasswordHash { get; set; }
         public DateTimeOffset? LastLoginDate { get; set; }
         public bool IsActive { get; set; }
 
-        [ForeignKey(nameof(RoleId))]
-        public Roles Roles { get; set; }
         public ICollection<Questions> ChildQuestions { get; set; }
-        public ICollection<OfferedAnswers> ChildOfferedAnswers { get; set; }
     }
+
+    public class UserConfiguration : IEntityTypeConfiguration<Users>
+    {
+        public void Configure(EntityTypeBuilder<Users> builder)
+        {
+            builder.Property(p => p.UserName).IsRequired().HasMaxLength(100);
+        }
+    }
+
     public enum GenderType
     {
         [Display(Name = "خانم")]

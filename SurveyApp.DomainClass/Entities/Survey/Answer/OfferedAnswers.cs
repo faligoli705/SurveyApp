@@ -1,5 +1,4 @@
-﻿using SurveyApp.DomainClass.Common;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -8,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SurveyApp.DomainClass.Entities
 {
-    public class OfferedAnswers : BaseEntities
+    public class OfferedAnswers : BaseEntities<Int32>
     {
         [MaxLength(300)]
         public string OfferedAnswerText { get; set; }

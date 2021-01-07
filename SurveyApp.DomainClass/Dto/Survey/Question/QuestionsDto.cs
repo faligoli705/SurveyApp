@@ -1,4 +1,4 @@
-﻿using SurveyApp.DomainClass.Common;
+﻿using SurveyApp.DomainClass.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SurveyApp.DomainClass.Dto
 {
-    public class QuestionsDto : BaseEntities
+    public class QuestionsDto : BaseEntities<Int32>
     {        
         public string QuestionText { get; set; }
         public DateTime? QuestionExpiresOnDate { get; set; } //انقضا
