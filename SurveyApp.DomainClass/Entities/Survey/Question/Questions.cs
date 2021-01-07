@@ -11,7 +11,7 @@ namespace SurveyApp.DomainClass.Entities
    public class Questions:BaseEntities
     {
         [Required]
-        [StringLength(300)]
+        [MaxLength(300)]
         public string QuestionText { get; set; }
         public DateTime? QuestionExpiresOnDate { get; set; } //انقضا
         public DateTime? PublishedDate { get; set; }

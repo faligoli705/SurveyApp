@@ -15,7 +15,7 @@ namespace SurveyApp.DomainClass.Entities
         public int? SurveyId { get; set; }
         public int? QuestionId { get; set; }
         public int? OfferedAnswerId { get; set; }
-        [StringLength(300)]
+        [MaxLength(300)]
         public string OtherText { get; set; }
 
 

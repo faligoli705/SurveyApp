@@ -11,10 +11,10 @@ namespace SurveyApp.DomainClass.Entities
    public class Roles: BaseEntities<Guid>
     {
         [Required]
-        [StringLength(50)]
+        [MaxLength(50)]
         public string RoleName { get; set; }
         [Required]
-        [StringLength(100)]
+        [MaxLength(100)]
         public string Description { get; set; }
     }
 }

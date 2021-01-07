@@ -10,7 +10,7 @@ namespace SurveyApp.DomainClass.Entities
 {
     public class OfferedAnswers : BaseEntities
     {
-        [StringLength(300)]
+        [MaxLength(300)]
         public string OfferedAnswerText { get; set; }
 
 

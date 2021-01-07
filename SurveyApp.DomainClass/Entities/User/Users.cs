@@ -17,15 +17,15 @@ namespace SurveyApp.DomainClass.Entities
         }
         public Guid RoleId { get; set; }
         [Required]
-        [StringLength(100)]
+        [MaxLength(100)]
         public string FName { get; set; }
         [Required]
-        [StringLength(100)]
+        [MaxLength(100)]
         public string LName { get; set; }
         public GenderType Gender { get; set; }
         public EmailAddressAttribute Email { get; set; }
         [Required]
-        [StringLength(500)]
+        [MaxLength(500)]
         public string UserPasswordHash { get; set; }
         public DateTimeOffset? LastLoginDate { get; set; }
         public bool IsActive { get; set; }

@@ -11,9 +11,9 @@ namespace SurveyApp.DomainClass.Entities
     public class SurveyCategory :BaseEntities
     {
         public Guid UserId { get; set; }
-        [StringLength(100)]
+        [MaxLength(100)]
         public string NameCategory { get; set; }
-        [StringLength(100)]
+        [MaxLength(100)]
         public string SubNameCategory { get; set; }
     }
 }
