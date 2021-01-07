@@ -31,10 +31,9 @@ namespace SurveyApp.DomainClass.Entities
         [ForeignKey(nameof(OfferedAnswerId))]
         public OfferedAnswers OfferedAnswers { get; set; }
 
-
         public ICollection<Users> ChildUsers { get; set; }
         public ICollection<Survey> ChildSurveys { get; set; }
         public ICollection<Questions> ChildQuestions { get; set; }
-        public ICollection<OfferedAnswers> childOfferedAnswers { get; set; }
+        public ICollection<OfferedAnswers> ChildOfferedAnswers { get; set; }
     }
 }

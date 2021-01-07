@@ -12,6 +12,7 @@ namespace SurveyApp.DomainClass.Common
     }
     public interface IEntity<TKey> : IEntity
     {
+        [Key]
         TKey Id { get; set; }
 
          DateTime? CreateDate { get; set; }
@@ -21,7 +22,7 @@ namespace SurveyApp.DomainClass.Common
     }
     public abstract class BaseEntities<Tkey> : IEntity
     {
-        [Key]
+        [Key]        
         public Tkey Id { get; set; }
         public DateTime? CreateDate { get; set; }
         public DateTime? DeleteDate { get; set; }

@@ -17,13 +17,17 @@ namespace SurveyApp.DataAccessLayer
         {
 
         }
+       
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
             // Get Assembly Entities 
             var entitiesAssembly = typeof(IEntity).Assembly;
+            
             // Automatically add models to the database (Data Annotation)
             modelBuilder.RegisterAllEntities<IEntity>(entitiesAssembly);
+            //modelBuilder.Entity<SurveyCategory>(entity => { entity.HasKey(e => e.Id); entity.ToTable("SurveyCategory"); });
             /*
              * If you use DataLayerAccess 
              * var entitiesAssembly = typeof(SurveyAppDbContext).Assembly;
