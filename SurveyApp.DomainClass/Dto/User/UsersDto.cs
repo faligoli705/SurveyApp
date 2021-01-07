@@ -18,7 +18,7 @@ namespace SurveyApp.DomainClass.Dto
         public string FName { get; set; } 
         public string LName { get; set; }
         public GenderType Gender { get; set; }
-        public EmailAddressAttribute Email { get; set; }
+        public string EmailUser { get; set; }
         public string UserPasswordHash { get; set; }
         public DateTimeOffset? LastLoginDate { get; set; }
         public bool IsActive { get; set; }

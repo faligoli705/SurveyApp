@@ -8,7 +8,11 @@ namespace SurveyApp.Infrastucture.Utilities
         {
             return ignoreWhiteSpace ? !string.IsNullOrWhiteSpace(value) : !string.IsNullOrEmpty(value);
         }
-
+        /// <summary>
+        /// Convert to ...
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
         public static int ToInt(this string value)
         {
             return Convert.ToInt32(value);
@@ -40,7 +44,11 @@ namespace SurveyApp.Infrastucture.Utilities
         {
             return value.ToString("C0");
         }
-
+        /// <summary>
+        /// convert En numerice to Fa 
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
         public static string En2Fa(this string str)
         {
             return str.Replace("0", "۰")
@@ -55,6 +63,11 @@ namespace SurveyApp.Infrastucture.Utilities
                 .Replace("9", "۹");
         }
 
+        /// <summary>
+        /// Convert numerice Fa to en
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
         public static string Fa2En(this string str)
         {
             return str.Replace("۰", "0")
@@ -80,6 +93,11 @@ namespace SurveyApp.Infrastucture.Utilities
                 .Replace("٩", "9");
         }
 
+        /// <summary>
+        /// Convert Charachter Arabic to Fa
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
         public static string FixPersianChars(this string str)
         {
             return str.Replace("ﮎ", "ک")

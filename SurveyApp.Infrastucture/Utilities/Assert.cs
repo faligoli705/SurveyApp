@@ -4,6 +4,9 @@ using System.Linq;
 
 namespace SurveyApp.Infrastucture.Utilities
 {
+    /// <summary>
+    /// اعتبار سنجی پارامترهای ورودی
+    /// </summary>
     public static class Assert
     {
         public static void NotNull<T>(T obj, string name, string message = null)

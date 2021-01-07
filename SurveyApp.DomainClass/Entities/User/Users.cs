@@ -21,7 +21,8 @@ namespace SurveyApp.DomainClass.Entities
         [MaxLength(100)]
         public string LName { get; set; }
         public GenderType Gender { get; set; }
-        public EmailAddressAttribute EmailUser { get; set; }
+        [MaxLength(100)]
+        public string EmailUser { get; set; }
         [Required]
         [MaxLength(500)]
         public string UserPasswordHash { get; set; }

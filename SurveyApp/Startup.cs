@@ -9,9 +9,11 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using SurveyApp.DataAccessLayer;
+using SurveyApp.DomainClass.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace SurveyApp
@@ -28,7 +30,7 @@ namespace SurveyApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
+            // Instantiate an Assembly class to the assembly housing the Integer type.
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {

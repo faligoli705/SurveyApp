@@ -12,6 +12,7 @@ namespace SurveyApp.Infrastucture.Utilities
     {
         /// <summary>
         /// Singularizin table name like Posts to Post or People to Person
+        /// setting Entity automatic with reflection
         /// </summary>
         /// <param name="modelBuilder"></param>
         public static void AddSingularizingTableNameConvention(this ModelBuilder modelBuilder)
