@@ -1,4 +1,5 @@
-﻿using SurveyApp.DomainClass.Common;
+﻿using Microsoft.AspNetCore.Identity;
+using SurveyApp.DomainClass.Common;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace SurveyApp.DomainClass.Entities
 {
-   public class Roles: BaseEntities
+   public class Roles: IdentityRole<Guid>
     {
         [Required]
         [MaxLength(50)]

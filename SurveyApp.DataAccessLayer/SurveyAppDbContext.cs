@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using SurveyApp.DomainClass.Common;
 using SurveyApp.DomainClass.Entities;
 using SurveyApp.Infrastucture.Utilities;
+using System;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace SurveyApp.DataAccessLayer
 {
-    public class SurveyAppDbContext : IdentityDbContext<Users, Roles,int>
+    public class SurveyAppDbContext : IdentityDbContext<Users, Roles,Guid>
     {
         public SurveyAppDbContext(DbContextOptions options)
             :base(options)

@@ -1,4 +1,5 @@
-﻿using SurveyApp.DomainClass.Common;
+﻿using Microsoft.AspNetCore.Identity;
+using SurveyApp.DomainClass.Common;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -9,13 +10,13 @@ using System.Threading.Tasks;
 
 namespace SurveyApp.DomainClass.Entities
 {
-    public class Users : BaseEntities
+    public class Users : IdentityUser<Guid>
     {
         public Users()
         {
             IsActive = true;
         }
-        public int RoleId { get; set; }
+        public Guid RoleId { get; set; }
         [Required]
         [MaxLength(100)]
         public string FName { get; set; }
