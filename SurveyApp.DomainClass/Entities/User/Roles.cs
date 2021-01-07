@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SurveyApp.DomainClass.Entities
 {
-   public class Roles: BaseEntities<Guid>
+   public class Roles: BaseEntities
     {
         [Required]
         [MaxLength(50)]

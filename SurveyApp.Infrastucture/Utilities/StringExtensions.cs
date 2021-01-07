@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Common.Utilities
+namespace SurveyApp.Infrastucture.Utilities
 {
     public static class StringExtensions
     {

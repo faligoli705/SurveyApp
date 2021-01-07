@@ -1,16 +1,16 @@
 ﻿using Common.Utilities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using SurveyApp.DomainClass.Common;
 using SurveyApp.DomainClass.Entities;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Reflection;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace SurveyApp.DataAccessLayer
 {
-    public class SurveyAppDbContext : DbContext
+    public class SurveyAppDbContext : IdentityDbContext<Users, Roles,int>
     {
         public SurveyAppDbContext(DbContextOptions options)
             :base(options)

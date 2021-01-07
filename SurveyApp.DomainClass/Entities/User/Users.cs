@@ -9,13 +9,13 @@ using System.Threading.Tasks;
 
 namespace SurveyApp.DomainClass.Entities
 {
-    public class Users : BaseEntities<Guid>
+    public class Users : BaseEntities
     {
         public Users()
         {
             IsActive = true;
         }
-        public Guid RoleId { get; set; }
+        public int RoleId { get; set; }
         [Required]
         [MaxLength(100)]
         public string FName { get; set; }
