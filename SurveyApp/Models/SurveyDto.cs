@@ -1,13 +1,11 @@
-﻿using SurveyApp.DomainClass.Entities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace SurveyApp.DomainClass.Dto
+namespace SurveyApp.Models
 {
-    public class SurveyDto : BaseEntities<Int32>
+    public class SurveyDto
     {
         public string Title { get; set; }
         public string Description { get; set; }

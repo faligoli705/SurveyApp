@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SurveyApp.DomainClass.Dto;
 using System;
 using System.Collections.Generic;
 using System.Linq;

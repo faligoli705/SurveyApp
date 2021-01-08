@@ -1,17 +1,14 @@
-﻿using SurveyApp.DomainClass.Entities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace SurveyApp.DomainClass.Dto
+namespace SurveyApp.Models
 {
-    public class QuestionsDto : BaseEntities<Int32>
-    {        
+    public class QuestionsDto
+    {
         public string QuestionText { get; set; }
         public DateTime? QuestionExpiresOnDate { get; set; } //انقضا
         public DateTime? PublishedDate { get; set; }
-
     }
 }
