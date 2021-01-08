@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using SurveyApp.Infrastucture.Utilities;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,7 @@ namespace SurveyApp.WebFramework.Api
     {
         public bool IsSuccess { get; set; }
         public ApiResultStatuseCode StatusCode { get; set; }
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public string Message { get; set; }
 
         public ApiResult(bool isSuccess, ApiResultStatuseCode statusCode, string message = null)
@@ -58,7 +60,7 @@ namespace SurveyApp.WebFramework.Api
     public class ApiResult<TData> : ApiResult
         where TData:class
     {
-
+        [JsonProperty(NullValueHandling=NullValueHandling.Ignore)]
         public TData Data { get; set; }
         public ApiResult(bool isSuccess, ApiResultStatuseCode statusCode,TData data,string message=null)
             :base(isSuccess,statusCode,message)
