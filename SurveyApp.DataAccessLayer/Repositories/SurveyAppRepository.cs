@@ -11,17 +11,17 @@ using System.Threading.Tasks;
 
 namespace Data.Repositories
 {
-    public class SurveyAppDbContext<TEntity> : ISurveyAppDbContext<TEntity> where TEntity : class, IEntity
+    public class SurveyAppRepository<TEntity> : ISurveyAppDbContext<TEntity>, ISurveyAppRepository<TEntity> where TEntity : class, IEntity
     {
         protected readonly SurveyAppDbContext DbContext;
         public DbSet<TEntity> Entities { get; }
         public virtual IQueryable<TEntity> Table => Entities;
         public virtual IQueryable<TEntity> TableNoTracking => Entities.AsNoTracking();
 
-        public SurveyAppDbContext(SurveyAppDbContext dbContext)
+        public SurveyAppRepository(SurveyAppDbContext dbContext)
         {
             DbContext = dbContext;
-            Entities = DbContext.Set<TEntity>(); // City => Cities
+            Entities = DbContext.Set<TEntity>(); // User => Users
         }
 
         #region Async Method

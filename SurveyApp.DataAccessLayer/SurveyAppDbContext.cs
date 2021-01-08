@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace SurveyApp.DataAccessLayer
 {
-    public class SurveyAppDbContext : IdentityDbContext<Users, Roles, Guid>
+    public class SurveyAppDbContext : IdentityDbContext<Users, Roles,Guid>
     {
         public SurveyAppDbContext(DbContextOptions options)
             : base(options)

@@ -8,9 +8,7 @@ namespace SurveyApp.DomainClass.Entities
 {
    public class Roles: IdentityRole<Guid>
     {
-        [Required]
-        [MaxLength(50)]
-        public string RoleName { get; set; }
+    
         [Required]
         [MaxLength(100)]
         public string Description { get; set; }
@@ -19,7 +17,7 @@ namespace SurveyApp.DomainClass.Entities
     {
         public void Configure(EntityTypeBuilder<Roles> builder)
         {
-            builder.Property(p => p.RoleName).IsRequired().HasMaxLength(50);
+            builder.Property(p => p.Name).IsRequired().HasMaxLength(50);
         }
     }
 }
