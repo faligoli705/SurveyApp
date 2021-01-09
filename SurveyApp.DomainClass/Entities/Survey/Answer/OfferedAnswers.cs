@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SurveyApp.DomainClass.Entities
 {
-    public class OfferedAnswers : BaseEntities<Int32>
+    public class OfferedAnswers : BaseEntities<Int32>,IEntity<Int32>
     {
         [MaxLength(300)]
         public string OfferedAnswerText { get; set; }

@@ -11,10 +11,10 @@ namespace SurveyApp.DomainClass.Entities
     {
         TKey Id { get; set; }
 
-         DateTime? CreateDate { get; set; }
-         DateTime? DeleteDate { get; set; }
-         DateTime? UpdateDate { get; set; }
-         bool IsDelete { get; set; }
+         //DateTime? CreateDate { get; set; }
+         //DateTime? DeleteDate { get; set; }
+         //DateTime? UpdateDate { get; set; }
+         //bool IsDelete { get; set; }
     }
 
     public abstract class BaseEntities<Tkey> : IEntity

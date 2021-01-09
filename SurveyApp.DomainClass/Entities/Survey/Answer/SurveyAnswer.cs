@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SurveyApp.DomainClass.Entities
 {
-   public class SurveyAnswer: BaseEntities<Int32>
+   public class SurveyAnswer: BaseEntities<Int32>, IEntity
     {
         public Guid UserId { get; set; }
         public int? SurveyId { get; set; }

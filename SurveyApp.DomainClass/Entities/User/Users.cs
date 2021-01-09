@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SurveyApp.DomainClass.Entities
 {
-    public class Users : IdentityUser<Guid>, IEntity
+    public class Users :  IdentityUser<Guid>, IEntity<Guid>
     {
         public Users()
         {
@@ -28,6 +28,10 @@ namespace SurveyApp.DomainClass.Entities
         [MaxLength(500)]
         public string UserPasswordHash { get; set; }
         public DateTimeOffset? LastLoginDate { get; set; }
+        public DateTime? CreateDate { get; set; }
+        public DateTime? DeleteDate { get; set; }
+        public DateTime? UpdateDate { get; set; }
+        public bool IsDelete { get; set; }
         //public Guid SecurityStamp { get; set; }
         public bool IsActive { get; set; }
 

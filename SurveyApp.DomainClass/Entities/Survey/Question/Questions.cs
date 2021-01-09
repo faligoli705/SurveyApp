@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SurveyApp.DomainClass.Entities
 {
-   public class Questions: BaseEntities<Int32>
+   public class Questions: BaseEntities<Int32>,IEntity<Int32>
     {
         [Required]
         [MaxLength(300)]

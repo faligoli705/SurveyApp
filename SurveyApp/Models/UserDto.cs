@@ -1,13 +1,12 @@
 ﻿using SurveyApp.DomainClass.Entities;
+using SurveyApp.WebFramework.Api;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace SurveyApp.Models
 {
-    public class UserDto :IValidatableObject
+    public class UserDto : BaseDto<UserDto, Users,Guid>, IValidatableObject
     {
         [Required]
         public string FName { get; set; }

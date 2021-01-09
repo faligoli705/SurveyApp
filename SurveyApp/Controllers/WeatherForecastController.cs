@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Data.Repositories;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using SurveyApp.DataAccessLayer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,15 +19,18 @@ namespace SurveyApp.Controllers
         };
 
         private readonly ILogger<WeatherForecastController> _logger;
+        SurveyAppDbContext _context;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
+        public WeatherForecastController(ILogger<WeatherForecastController> logger,SurveyAppDbContext context)
         {
             _logger = logger;
+            _context = context;
         }
 
         [HttpGet]
         public IEnumerable<WeatherForecast> Get()
         {
+            _context.Users.ToList();
             var rng = new Random();
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
