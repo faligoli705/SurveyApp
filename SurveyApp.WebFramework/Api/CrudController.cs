@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
-using Data.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using SurveyApp.DataAccessLayer.Contracts;
 using SurveyApp.DomainClass.Entities;
+using SurveyApp.WebFramework.Filters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +15,10 @@ using System.Threading.Tasks;
 
 namespace SurveyApp.WebFramework.Api
 {
-    [ApiVersion("1")]
+    [ApiController]
+    [AllowAnonymous]
+    [ApiResultFilter]
+    [Route("api/[controller")]
     public class CrudController<TDto, TSelectDto, TEntity, TKey> : BaseController
         where TDto : BaseDto<TDto, TEntity, TKey>, new()
         where TSelectDto : BaseDto<TSelectDto, TEntity, TKey>, new()

@@ -1,7 +1,5 @@
-﻿using Data.Repositories;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -10,12 +8,10 @@ using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using SurveyApp.DataAccessLayer;
-using SurveyApp.DataAccessLayer.Contracts;
 using SurveyApp.DomainClass.Entities;
 using SurveyApp.Infrastucture;
+using SurveyApp.Infrastucture.Execptions;
 using SurveyApp.Infrastucture.Utilities;
-using SurveyApp.WebFramework.Common;
-using SurveyApp.WebFramework.Execptions;
 using System;
 using System.Linq;
 using System.Net;
@@ -144,17 +140,6 @@ namespace SurveyApp.WebFramework.Configuration
                 };
             });
         }
-
-        public static void AddCustomApiVersioning(this IServiceCollection services)
-        {
-            services.AddApiVersioning(options =>
-            {
-                //url segment => {version}
-                options.AssumeDefaultVersionWhenUnspecified = true; //default => false;
-                options.DefaultApiVersion = new ApiVersion(1, 0); //v1.0 == v1
-                options.ReportApiVersions = true;
-
-            });
-        }
+ 
     }
 }

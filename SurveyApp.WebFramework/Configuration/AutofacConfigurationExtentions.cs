@@ -1,6 +1,5 @@
 ﻿using Autofac;
 using Autofac.Extensions.DependencyInjection;
-using Data.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 using SurveyApp.DataAccessLayer;
 using SurveyApp.DomainClass.Entities;
@@ -18,8 +17,6 @@ namespace SurveyApp.WebFramework.Configuration
     {
         public static void AddServices(this ContainerBuilder containerBuilder)
         {
-
-
             var commonAssembly = typeof(SiteSetting).Assembly;
             var domainClassAssembly = typeof(IEntity).Assembly;
             var dataAccessLayerAssembly = typeof(SurveyAppDbContext).Assembly;

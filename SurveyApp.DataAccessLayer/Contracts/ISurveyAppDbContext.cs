@@ -7,7 +7,7 @@ using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Data.Repositories
+namespace SurveyApp.DataAccessLayer
 {
     public interface ISurveyAppDbContext<TEntity> where TEntity : class, IEntity
     {

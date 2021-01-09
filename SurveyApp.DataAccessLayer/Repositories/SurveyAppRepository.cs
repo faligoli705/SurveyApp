@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SurveyApp.DataAccessLayer;
+using SurveyApp.DataAccessLayer.Contracts;
 using SurveyApp.DomainClass.Entities;
 using SurveyApp.Infrastucture.Utilities;
 using System;
@@ -9,7 +9,7 @@ using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Data.Repositories
+namespace SurveyApp.DataAccessLayer
 {
     public class SurveyAppRepository<TEntity> : ISurveyAppDbContext<TEntity>, ISurveyAppRepository<TEntity> where TEntity : class, IEntity
     {

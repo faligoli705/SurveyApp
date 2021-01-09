@@ -1,28 +1,33 @@
+using System;
+using System.Net;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Autofac.Extensions.DependencyInjection;
+using NLog.Config;
+using NLog.Targets;
 using NLog.Web;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using SurveyApp;
+using NLog;
 
-namespace SurveyApp
+namespace MyApi
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
-            //CreateHostBuilder(args).Build().Run();
-            //Set deafult proxy
-            // WebRequest.DefaultWebProxy = new WebProxy("http://127.0.0.1:8118", true) { UseDefaultCredentials = true };
+            #region Sentry/NLog
+            var logger = LogManager.GetCurrentClassLogger();
+            #endregion
 
-            var logger = NLogBuilder.ConfigureNLog("nlog.config").GetCurrentClassLogger();
             try
             {
                 logger.Debug("init main");
-                CreateHostBuilder(args).Build().Run();
+                await CreateHostBuilder(args).Build().RunAsync();
             }
             catch (Exception ex)
             {
@@ -33,17 +38,39 @@ namespace SurveyApp
             finally
             {
                 // Ensure to flush and stop internal timers/threads before application-exit (Avoid segmentation fault on Linux)
-                NLog.LogManager.Shutdown();
+                LogManager.Flush();
+                LogManager.Shutdown();
             }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-            .ConfigureLogging(options => options.ClearProviders())
-            .UseNLog()
+                .UseServiceProviderFactory(new AutofacServiceProviderFactory())
+                .ConfigureLogging(options => options.ClearProviders())
+                .UseNLog()
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
+                    //webBuilder.ConfigureLogging(options => options.ClearProviders());
+                    //webBuilder.UseNLog();
                     webBuilder.UseStartup<Startup>();
                 });
+
+        private static void UsingCodeConfiguration()
+        {
+            // Other overloads exist, for example, configure the SDK with only the DSN or no parameters at all.
+            var config = new LoggingConfiguration();
+     
+            config.AddTarget(new DebuggerTarget("Debugger"));
+            config.AddTarget(new ColoredConsoleTarget("Console"));
+
+            config.AddRuleForAllLevels("Console");
+            config.AddRuleForAllLevels("Debugger");
+
+            LogManager.Configuration = config;
+        }
     }
 }

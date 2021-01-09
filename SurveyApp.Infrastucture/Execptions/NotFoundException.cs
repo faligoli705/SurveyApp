@@ -1,9 +1,6 @@
-﻿
-using SurveyApp.WebFramework.Api;
-using SurveyApp.WebFramework.Common;
-using System;
+﻿using System;
 
-namespace SurveyApp.WebFramework.Execptions
+namespace SurveyApp.Infrastucture.Execptions
 {
     public class NotFoundException : AppException
     {

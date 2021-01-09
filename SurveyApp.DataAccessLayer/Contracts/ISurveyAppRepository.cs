@@ -7,7 +7,7 @@ using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Data.Repositories
+namespace SurveyApp.DataAccessLayer.Contracts
 {
     public interface ISurveyAppRepository<TEntity> where TEntity : class, IEntity
     {

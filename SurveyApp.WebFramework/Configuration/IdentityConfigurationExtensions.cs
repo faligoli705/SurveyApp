@@ -13,8 +13,8 @@ namespace SurveyApp.WebFramework.Configuration
             services.AddIdentity<Users, Roles>(identityOptions =>
             {
                 //Password Settings
-                identityOptions.Password.RequireDigit = settings.PasswordRequireDigit; //کاراکتر عددی باشد یا خیر
-                identityOptions.Password.RequiredLength = settings.PasswordRequiredLength; //حداقل طول پسورد
+                identityOptions.Password.RequireDigit = settings.PasswordRequireDigit;
+                identityOptions.Password.RequiredLength = settings.PasswordRequiredLength;
                 identityOptions.Password.RequireNonAlphanumeric = settings.PasswordRequireNonAlphanumeric; //#@!
                 identityOptions.Password.RequireUppercase = settings.PasswordRequireUppercase;
                 identityOptions.Password.RequireLowercase = settings.PasswordRequireLowercase;
@@ -27,9 +27,9 @@ namespace SurveyApp.WebFramework.Configuration
                 //identityOptions.SignIn.RequireConfirmedPhoneNumber = false;
 
                 //Lockout Settings
-                //identityOptions.Lockout.MaxFailedAccessAttempts = 5;  //حداکثر تعداد اشتباه
-                //identityOptions.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5); // مدت تایم قفل بودن بعد از اشتباه وارد کردن
-                //identityOptions.Lockout.AllowedForNewUsers = false;  //برای کابرای جدید هم فعال باشد
+                //identityOptions.Lockout.MaxFailedAccessAttempts = 5;
+                //identityOptions.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+                //identityOptions.Lockout.AllowedForNewUsers = false;
             })
             .AddEntityFrameworkStores<SurveyAppDbContext>()
             .AddDefaultTokenProviders();

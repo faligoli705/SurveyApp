@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SurveyApp.WebFramework.Common
+namespace SurveyApp.Infrastucture
 {
     public enum ApiResultStatusCode
     {

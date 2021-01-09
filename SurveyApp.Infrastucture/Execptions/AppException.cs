@@ -1,11 +1,8 @@
 ﻿
-
-using SurveyApp.WebFramework.Api;
-using SurveyApp.WebFramework.Common;
 using System;
 using System.Net;
 
-namespace SurveyApp.WebFramework.Execptions
+namespace SurveyApp.Infrastucture.Execptions
 {
     public class AppException : Exception
     {
