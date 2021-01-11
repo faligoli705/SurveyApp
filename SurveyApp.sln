@@ -3,17 +3,21 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30717.126
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SurveyApp", "SurveyApp\SurveyApp.csproj", "{53579A10-F1DB-480D-B191-9561D8B6E7FB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SurveyApp", "SurveyApp\SurveyApp.csproj", "{53579A10-F1DB-480D-B191-9561D8B6E7FB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SurveyApp.WebFramework", "SurveyApp.WebFramework\SurveyApp.WebFramework.csproj", "{E1B586F0-E9D0-4207-B055-F86F807DD12B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SurveyApp.WebFramework", "SurveyApp.WebFramework\SurveyApp.WebFramework.csproj", "{E1B586F0-E9D0-4207-B055-F86F807DD12B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SurveyApp.Services", "SurveyApp.Services\SurveyApp.Services.csproj", "{23297EFD-D1B9-4228-8414-0AEB68D70D4A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SurveyApp.Services", "SurveyApp.Services\SurveyApp.Services.csproj", "{23297EFD-D1B9-4228-8414-0AEB68D70D4A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SurveyApp.DataAccessLayer", "SurveyApp.DataAccessLayer\SurveyApp.DataAccessLayer.csproj", "{C2659E6D-CEDD-4688-9F38-70989C03BB8A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SurveyApp.DataAccessLayer", "SurveyApp.DataAccessLayer\SurveyApp.DataAccessLayer.csproj", "{C2659E6D-CEDD-4688-9F38-70989C03BB8A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SurveyApp.DomainClass", "SurveyApp.DomainClass\SurveyApp.DomainClass.csproj", "{2E30898A-12AD-4302-9FAA-B07F6665BED3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SurveyApp.DomainClass", "SurveyApp.DomainClass\SurveyApp.DomainClass.csproj", "{2E30898A-12AD-4302-9FAA-B07F6665BED3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SurveyApp.Infrastucture", "SurveyApp.Infrastucture\SurveyApp.Infrastucture.csproj", "{A78CC370-8EE9-424A-A262-B37233BBF54F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SurveyApp.Infrastucture", "SurveyApp.Infrastucture\SurveyApp.Infrastucture.csproj", "{A78CC370-8EE9-424A-A262-B37233BBF54F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Survey.Scorer", "Survey.Scorer\Survey.Scorer.csproj", "{42BBDC5C-C8E1-4897-80A3-1A562697755F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Survey.ScoreModel", "Survey.ScorwModel\Survey.ScoreModel.csproj", "{C1CC25D4-888B-43EB-953E-14AF3CD445BE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +49,14 @@ Global
 		{A78CC370-8EE9-424A-A262-B37233BBF54F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A78CC370-8EE9-424A-A262-B37233BBF54F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A78CC370-8EE9-424A-A262-B37233BBF54F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{42BBDC5C-C8E1-4897-80A3-1A562697755F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{42BBDC5C-C8E1-4897-80A3-1A562697755F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{42BBDC5C-C8E1-4897-80A3-1A562697755F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{42BBDC5C-C8E1-4897-80A3-1A562697755F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1CC25D4-888B-43EB-953E-14AF3CD445BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1CC25D4-888B-43EB-953E-14AF3CD445BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1CC25D4-888B-43EB-953E-14AF3CD445BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1CC25D4-888B-43EB-953E-14AF3CD445BE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -8,19 +8,19 @@ namespace SurveyApp.WebFramework.Configuration
 {
     public static class IdentityConfigurationExtensions
     {
-        public static void AddCustomIdentity(this IServiceCollection services, IdentitySettings settings)
+        public static void AddCustomIdentity(this IServiceCollection services)
         {
             services.AddIdentity<Users, Roles>(identityOptions =>
             {
                 //Password Settings
-                identityOptions.Password.RequireDigit = settings.PasswordRequireDigit;
-                identityOptions.Password.RequiredLength = settings.PasswordRequiredLength;
-                identityOptions.Password.RequireNonAlphanumeric = settings.PasswordRequireNonAlphanumeric; //#@!
-                identityOptions.Password.RequireUppercase = settings.PasswordRequireUppercase;
-                identityOptions.Password.RequireLowercase = settings.PasswordRequireLowercase;
+                identityOptions.Password.RequireDigit = false;
+                identityOptions.Password.RequiredLength = 6;
+                identityOptions.Password.RequireNonAlphanumeric = false; //#@!
+                identityOptions.Password.RequireUppercase = false;
+                identityOptions.Password.RequireLowercase = false;
 
                 //UserName Settings
-                identityOptions.User.RequireUniqueEmail = settings.RequireUniqueEmail;
+                identityOptions.User.RequireUniqueEmail =false;
 
                 //Singin Settings
                 //identityOptions.SignIn.RequireConfirmedEmail = false;

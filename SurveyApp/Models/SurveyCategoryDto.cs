@@ -12,4 +12,9 @@ namespace SurveyApp.Models
         public string NameCategory { get; set; }
         public string SubNameCategory { get; set; }
     }
+
+    public class SurveyCategorySelectDto : BaseDto<SurveyCategorySelectDto, SurveyCategory, Int32>
+    {
+        public string NameCategory { get; set; }
+    }
 }

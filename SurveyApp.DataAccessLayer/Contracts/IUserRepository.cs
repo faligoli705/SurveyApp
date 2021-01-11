@@ -1,4 +1,5 @@
 ﻿using SurveyApp.DomainClass.Entities;
+using SurveyApp.Infrastucture;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace SurveyApp.DataAccessLayer.Contracts
 {
-    public interface IUserRepository : ISurveyAppRepository<Users>
+    public interface IUserRepository : IBaseRepository<Users>,IScopedDependency
     {
         Task<Users> GetByUserAndPass(string username, string password, CancellationToken cancellationToken);
 

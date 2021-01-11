@@ -4,8 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Autofac.Extensions.DependencyInjection;
-using NLog.Config;
+ using NLog.Config;
 using NLog.Targets;
 using NLog.Web;
 using SurveyApp;
@@ -49,8 +48,7 @@ namespace MyApi
         /// <returns></returns>
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-                .UseServiceProviderFactory(new AutofacServiceProviderFactory())
-                .ConfigureLogging(options => options.ClearProviders())
+                 .ConfigureLogging(options => options.ClearProviders())
                 .UseNLog()
                 .ConfigureWebHostDefaults(webBuilder =>
                 {

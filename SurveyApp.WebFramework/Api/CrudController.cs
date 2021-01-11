@@ -24,10 +24,10 @@ namespace SurveyApp.WebFramework.Api
         where TSelectDto : BaseDto<TSelectDto, TEntity, TKey>, new()
         where TEntity : class, IEntity<TKey>, new()
     {
-        protected readonly ISurveyAppRepository<TEntity> SurveyAppRepository;
+        protected readonly IBaseRepository<TEntity> SurveyAppRepository;
         protected readonly IMapper Mapper;
 
-        public CrudController(ISurveyAppRepository<TEntity> surveyAppRepository, IMapper mapper)
+        public CrudController(IBaseRepository<TEntity> surveyAppRepository, IMapper mapper)
         {
             SurveyAppRepository = surveyAppRepository;
             Mapper = mapper;
@@ -98,7 +98,7 @@ namespace SurveyApp.WebFramework.Api
         where TSelectDto : BaseDto<TSelectDto, TEntity, int>, new()
         where TEntity : class, IEntity<int>, new()
     {
-        public CrudController(ISurveyAppRepository<TEntity> surveyAppRepository, IMapper mapper)
+        public CrudController(IBaseRepository<TEntity> surveyAppRepository, IMapper mapper)
             : base(surveyAppRepository, mapper)
         {
         }
@@ -108,7 +108,7 @@ namespace SurveyApp.WebFramework.Api
         where TDto : BaseDto<TDto, TEntity, int>, new()
         where TEntity : class, IEntity<int>, new()
     {
-        public CrudController(ISurveyAppRepository<TEntity> surveyAppRepository, IMapper mapper)
+        public CrudController(IBaseRepository<TEntity> surveyAppRepository, IMapper mapper)
             : base(surveyAppRepository, mapper)
         {
         }

@@ -1,11 +1,8 @@
 ﻿using AutoMapper;
-using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
+using Microsoft.Extensions.DependencyInjection; 
+using System; 
 using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
+using System.Reflection; 
 
 namespace SurveyApp.WebFramework.CustomMapping
 {
@@ -20,8 +17,7 @@ namespace SurveyApp.WebFramework.CustomMapping
                 {
                     configProvicer.CompileMappings();
                 });
-            }, assemblies);
-
+            }, assemblies); 
         }
 
         public static void AddCustomMappingProfile(this IMapperConfigurationExpression config)

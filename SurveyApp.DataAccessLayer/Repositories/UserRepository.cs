@@ -12,7 +12,8 @@ using System.Threading.Tasks;
 
 namespace SurveyApp.DataAccessLayer
 {
-    public class UserRepository : SurveyAppRepository<Users>, IUserRepository, IScopedDependency
+    public class UserRepository : BaseRepository<Users>, IUserRepository, IScopedDependency
+        
     {
         public UserRepository(SurveyAppDbContext dbContext)
             : base(dbContext)

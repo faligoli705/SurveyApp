@@ -4,10 +4,13 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
+using NetCore.AutoRegisterDi;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using SurveyApp.DataAccessLayer;
+using SurveyApp.DataAccessLayer.Contracts;
 using SurveyApp.DomainClass.Entities;
 using SurveyApp.Infrastucture;
 using SurveyApp.Infrastucture.Execptions;
@@ -22,16 +25,14 @@ namespace SurveyApp.WebFramework.Configuration
 {
     public static class ServiceCollectionExtensions
     {
+ 
         public static void AddDbContext(this IServiceCollection services, IConfiguration configuration)
         {
-            
             services.AddDbContext<SurveyAppDbContext>(options =>
             {
-
-                options.UseSqlServer(configuration.GetConnectionString("SqlServerSurvey"));
-
-            });
-           
+                options
+                    .UseSqlServer(configuration.GetConnectionString("SqlServerSurvey"));
+            });           
         }
 
         public static void AddMinimalMvc(this IServiceCollection services)
@@ -47,8 +48,8 @@ namespace SurveyApp.WebFramework.Configuration
             });
             services.AddSwaggerGenNewtonsoftSupport();
 
-        }
 
+        }
 
         public static void AddJwtAuthentication(this IServiceCollection services, JwtSettings jwtSettings)
         {
@@ -67,16 +68,16 @@ namespace SurveyApp.WebFramework.Configuration
                     ClockSkew = TimeSpan.Zero, // default: 5 min
                     RequireSignedTokens = true,
 
-                    ValidateIssuerSigningKey = true, //اعتبار سنجی توکن
+                    ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(secretKey),
 
-                    RequireExpirationTime = true, // توکن انقضا دار
+                    RequireExpirationTime = true,
                     ValidateLifetime = true,
 
-                    ValidateAudience = true, //default : false مصرف کننده توکن مورد بررسی قرار بده
-                    ValidAudience = jwtSettings.Audience,  
+                    ValidateAudience = true, //default : false
+                    ValidAudience = jwtSettings.Audience,
 
-                    ValidateIssuer = true, //default : false  توکن صادر کننده
+                    ValidateIssuer = true, //default : false
                     ValidIssuer = jwtSettings.Issuer,
 
                     TokenDecryptionKey = new SymmetricSecurityKey(encryptionKey)
@@ -97,10 +98,10 @@ namespace SurveyApp.WebFramework.Configuration
 
                         return Task.CompletedTask;
                     },
-                    OnTokenValidated = async context => 
+                    OnTokenValidated = async context =>
                     {
                         var signInManager = context.HttpContext.RequestServices.GetRequiredService<SignInManager<Users>>();
-                        //var userRepository = context.HttpContext.RequestServices.GetRequiredService<IUserRepository>();
+                        var userRepository = context.HttpContext.RequestServices.GetRequiredService<IUserRepository>();
 
                         var claimsIdentity = context.Principal.Identity as ClaimsIdentity;
                         if (claimsIdentity.Claims?.Any() != true)
@@ -112,7 +113,7 @@ namespace SurveyApp.WebFramework.Configuration
 
                         //Find user and token from database and perform your custom validation
                         var userId = claimsIdentity.GetUserId<int>();
-                        //var user = await userRepository.GetByIdAsync(context.HttpContext.RequestAborted, userId);
+                        var user = await userRepository.GetByIdAsync(context.HttpContext.RequestAborted, userId);
 
                         //if (user.SecurityStamp != Guid.Parse(securityStamp))
                         //    context.Fail("Token security stamp is not valid.");
@@ -121,10 +122,10 @@ namespace SurveyApp.WebFramework.Configuration
                         if (validatedUser == null)
                             context.Fail("Token security stamp is not valid.");
 
-                        //if (!user.IsActive)
-                        //    context.Fail("User is not active.");
+                        if (!user.IsActive)
+                            context.Fail("User is not active.");
 
-                        //await userRepository.UpdateLastLoginDateAsync(user, context.HttpContext.RequestAborted);
+                        await userRepository.UpdateLastLoginDateAsync(user, context.HttpContext.RequestAborted);
                     },
                     OnChallenge = context =>
                     {
@@ -140,6 +141,13 @@ namespace SurveyApp.WebFramework.Configuration
                 };
             });
         }
- 
+
+        public static void AddServices(this IServiceCollection services, IConfiguration configuration) //#A
+        {
+            services.RegisterAssemblyPublicNonGenericClasses()
+            .Where(x => x.Name.EndsWith("services"))  //optional
+            .AsPublicImplementedInterfaces(ServiceLifetime.Scoped);
+
+        }
     }
 }

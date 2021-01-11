@@ -4,7 +4,53 @@
         <name>SurveyApp</name>
     </assembly>
     <members>
-        <member name="M:SurveyApp.Controllers.UsersController.Token(SurveyApp.Models.TokenRequest,System.Threading.CancellationToken)">
+        <member name="T:SurveyApp.Controllers.CategoyController">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SurveyApp.Controllers.CategoyController.#ctor(SurveyApp.DataAccessLayer.Contracts.IBaseRepository{SurveyApp.DomainClass.Entities.SurveyCategory},AutoMapper.IMapper)">
+            <summary>
+            
+            </summary>
+            <param name="repository"></param>
+            <param name="mapper"></param>
+        </member>
+        <member name="M:SurveyApp.Controllers.OfferedAnswersController.#ctor(SurveyApp.DataAccessLayer.Contracts.IBaseRepository{SurveyApp.DomainClass.Entities.OfferedAnswers},AutoMapper.IMapper)">
+            <summary>
+            
+            </summary>
+            <param name="repository"></param>
+            <param name="mapper"></param>
+        </member>
+        <member name="T:SurveyApp.Controllers.QuestionController">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SurveyApp.Controllers.QuestionController.#ctor(SurveyApp.DataAccessLayer.Contracts.IBaseRepository{SurveyApp.DomainClass.Entities.Questions},AutoMapper.IMapper)">
+            <summary>
+            
+            </summary>
+            <param name="repository"></param>
+            <param name="mapper"></param>
+        </member>
+        <member name="T:SurveyApp.Controllers.UserController">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SurveyApp.Controllers.UserController.#ctor(SurveyApp.DataAccessLayer.Contracts.IUserRepository,Microsoft.Extensions.Logging.ILogger{SurveyApp.Controllers.UserController},Microsoft.AspNetCore.Identity.UserManager{SurveyApp.DomainClass.Entities.Users},Microsoft.AspNetCore.Identity.RoleManager{SurveyApp.DomainClass.Entities.Roles},Microsoft.AspNetCore.Identity.SignInManager{SurveyApp.DomainClass.Entities.Users})">
+            <summary>
+            
+            </summary>
+            <param name="userRepository"></param>
+            <param name="logger"></param>
+            <param name="userManager"></param>
+            <param name="roleManager"></param>
+            <param name="signInManager"></param>
+        </member>
+        <member name="M:SurveyApp.Controllers.UserController.Token(SurveyApp.Models.TokenRequest,System.Threading.CancellationToken)">
             <summary>
             This method generate JWT Token
             </summary>

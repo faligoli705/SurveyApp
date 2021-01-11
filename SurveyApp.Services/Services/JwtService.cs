@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace SurveyApp.Services
 {
-    public class JwtService : IJwtService ,IScopedDependency
+    public class JwtService : IJwtService, IScopedDependency
     {
         private readonly SiteSetting _siteSetting;
         private readonly SignInManager<Users> signInManager;
@@ -47,16 +47,9 @@ namespace SurveyApp.Services
                 Subject = new ClaimsIdentity(claims)
             };
 
-            //JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
-            //JwtSecurityTokenHandler.DefaultMapInboundClaims = false;
-            //JwtSecurityTokenHandler.DefaultOutboundClaimTypeMap.Clear();
-
             var tokenHandler = new JwtSecurityTokenHandler();
 
             var securityToken = tokenHandler.CreateJwtSecurityToken(descriptor);
-
-            //string encryptedJwt = tokenHandler.WriteToken(securityToken);
-
             return new AccessToken(securityToken);
         }
 
@@ -64,25 +57,10 @@ namespace SurveyApp.Services
         {
             var result = await signInManager.ClaimsFactory.CreateAsync(user);
             //add custom claims
-            //var list = new List<Claim>(result.Claims);
-            //list.Add(new Claim(ClaimTypes.MobilePhone, "09123456987"));
+            var list = new List<Claim>(result.Claims);
+            list.Add(new Claim(ClaimTypes.MobilePhone, "09123456987")); 
 
-            //JwtRegisteredClaimNames.Sub
-            //var securityStampClaimType = new ClaimsIdentityOptions().SecurityStampClaimType;
-
-            //var list = new List<Claim>
-            //{
-            //    new Claim(ClaimTypes.Name, user.UserName),
-            //    new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-            //    //new Claim(ClaimTypes.MobilePhone, "09123456987"),
-            //    //new Claim(securityStampClaimType, user.SecurityStamp.ToString())
-            //};
-
-            //var roles = new Role[] { new Role { Name = "Admin" } };
-            //foreach (var role in roles)
-            //    list.Add(new Claim(ClaimTypes.Role, role.Name));
-
-            return result.Claims;
+            return list;
         }
     }
 }

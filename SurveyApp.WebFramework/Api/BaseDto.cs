@@ -11,10 +11,10 @@ using System.Threading.Tasks;
 namespace SurveyApp.WebFramework.Api
 {
     public abstract class BaseDto<TDto, TEntity, TKey> : IHaveCustomMapping
-        where TDto : class, new()
-        where TEntity : class, IEntity<TKey>, new()
+         where TDto : class, new()
+         where TEntity : class, IEntity<TKey>, new()
     {
-        //[Display(Name = "ردیف")]
+        [Display(Name = "ردیف")]
         public TKey Id { get; set; }
 
         public TEntity ToEntity(IMapper mapper)

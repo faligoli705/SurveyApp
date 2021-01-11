@@ -17,27 +17,40 @@ using TokenRequest = SurveyApp.Models.TokenRequest;
 
 namespace SurveyApp.Controllers
 {
-    public class UsersController : BaseController
+    /// <summary>
+    /// 
+    /// </summary>
+    [Route("api/[controller]")]
+    [ApiController]
+    [AllowAnonymous]
+    public class UserController : BaseController
     {
         private readonly IUserRepository userRepository;
-        private readonly ILogger<UsersController> logger;
-        private readonly IJwtService jwtService;
+        private readonly ILogger<UserController> logger;
+        //private readonly IJwtService jwtService;
         private readonly UserManager<Users> userManager;
         private readonly RoleManager<Roles> roleManager;
         private readonly SignInManager<Users> signInManager;
 
-         public UsersController(IUserRepository userRepository, ILogger<UsersController> logger, IJwtService jwtService,
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userRepository"></param>
+        /// <param name="logger"></param>
+         /// <param name="userManager"></param>
+        /// <param name="roleManager"></param>
+        /// <param name="signInManager"></param>
+         public UserController(IUserRepository userRepository, ILogger<UserController> logger, 
         UserManager<Users> userManager, RoleManager<Roles> roleManager, SignInManager<Users> signInManager)
         {
             this.userRepository = userRepository;
             this.logger = logger;
-            this.jwtService = jwtService;
-            this.userManager = userManager;
+             this.userManager = userManager;
             this.roleManager = roleManager;
             this.signInManager = signInManager;
         }
 
-
+       
 
         [HttpGet]
         //[Authorize(Roles = "Admin")]
@@ -52,7 +65,7 @@ namespace SurveyApp.Controllers
             //var role = HttpContext.User.Identity.FindFirstValue(ClaimTypes.Role);
 
             var users = await userRepository.TableNoTracking.ToListAsync(cancellationToken);
-            return Ok(users);
+            return Ok( users);
         }
 
         [HttpGet("{id:int}")]
@@ -98,8 +111,8 @@ namespace SurveyApp.Controllers
             //if (user == null)
             //    throw new BadRequestException("نام کاربری یا رمز عبور اشتباه است");
 
-            var jwt = await jwtService.GenerateAsync(user);
-            return new JsonResult(jwt);
+            //var jwt = await jwtService.GenerateAsync(user);
+            return new JsonResult(user);
         }
 
         [HttpPost]
@@ -108,9 +121,9 @@ namespace SurveyApp.Controllers
         {
             logger.LogError("متد Create فراخوانی شد");
 
-            //var exists = await userRepository.TableNoTracking.AnyAsync(p => p.UserName == userDto.UserName);
-            //if (exists)
-            //    return BadRequest("نام کاربری تکراری است");
+            var exists = await userRepository.TableNoTracking.AnyAsync(p => p.EmailUser == userDto.EmailUser);
+            if (exists)
+                return BadRequest("نام کاربری تکراری است");
 
 
             var user = new Users
@@ -118,17 +131,20 @@ namespace SurveyApp.Controllers
                 FName = userDto.FName,
                 LName = userDto.LName,
                 Gender = userDto.Gender,
-                EmailUser = userDto.EmailUser
+                EmailUser = userDto.EmailUser,
+                UserPasswordHash=userDto.UserPassword,
+                UserName=userDto.EmailUser
+                
             };
-            var result = await userManager.CreateAsync(user, userDto.UserPassword);
+            //var result = await userManager.CreateAsync(user, userDto.UserPassword);
+            var result = await userManager.CreateAsync(user,userDto.UserPassword);
+            //var result2 = await roleManager.CreateAsync(new Roles
+            //{
+            //    Name = "Admin",
+            //    Description = "admin role"
+            //});
 
-            var result2 = await roleManager.CreateAsync(new Roles
-            {
-                Name = "Admin",
-                Description = "admin role"
-            });
-
-            var result3 = await userManager.AddToRoleAsync(user, "Admin");
+            //var result3 = await userManager.AddToRoleAsync(user, "Admin");
 
             //await userRepository.AddAsync(user, userDto.Password, cancellationToken);
             return user;
