@@ -21,12 +21,7 @@ namespace SurveyApp.DomainClass.Entities
         [Required]
         [MaxLength(100)]
         public string LName { get; set; }
-        public GenderType Gender { get; set; }
-        [MaxLength(100)]
-        public string EmailUser { get; set; }
-        [Required]
-        [MaxLength(500)]
-        public string UserPasswordHash { get; set; }
+        public GenderType Gender { get; set; } 
         public DateTimeOffset? LastLoginDate { get; set; }
         public DateTime? CreateDate { get; set; }
         public DateTime? DeleteDate { get; set; }
@@ -35,7 +30,7 @@ namespace SurveyApp.DomainClass.Entities
         //public Guid SecurityStamp { get; set; }
         public bool IsActive { get; set; }
 
-        public ICollection<Questions> ChildQuestions { get; set; }
+        public ICollection<SurveyQuestions> ChildQuestions { get; set; }
     }
 
     public class UserConfiguration : IEntityTypeConfiguration<Users>

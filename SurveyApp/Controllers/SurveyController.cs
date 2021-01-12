@@ -12,23 +12,19 @@ using System.Threading.Tasks;
 
 namespace SurveyApp.Controllers
 {
-    /// <summary>
-    /// 
-    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize]
     [AllowAnonymous]
-    public class CategoyController : CrudController<CategoryDto, SurveyCategory>
+    //[Authorize]
+
+    public class SurveyController : CrudController<SurveyDto, Survey>
     {
         /// <summary>
         /// 
         /// </summary>
         /// <param name="repository"></param>
         /// <param name="mapper"></param>
-
-
-        public CategoyController(IBaseRepository<SurveyCategory> repository, IMapper mapper)
+        public SurveyController(IBaseRepository<Survey> repository, IMapper mapper)
             : base(repository, mapper)
         {
         }

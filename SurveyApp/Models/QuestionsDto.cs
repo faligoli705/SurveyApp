@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SurveyApp.Models
 {
-    public class QuestionsDto : BaseDto<QuestionsDto, Questions,Int32>,IEntity<Int32>
+    public class QuestionsDto : BaseDto<QuestionsDto, SurveyQuestions,Int32>,IEntity<Int32>
     {
         public string QuestionText { get; set; }
         public DateTime? QuestionExpiresOnDate { get; set; } //انقضا

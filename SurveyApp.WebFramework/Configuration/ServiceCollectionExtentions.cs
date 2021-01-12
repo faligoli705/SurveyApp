@@ -53,6 +53,8 @@ namespace SurveyApp.WebFramework.Configuration
 
         public static void AddJwtAuthentication(this IServiceCollection services, JwtSettings jwtSettings)
         {
+           
+
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;

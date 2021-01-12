@@ -10,6 +10,7 @@ namespace SurveyApp.DomainClass.Entities
     public class SurveyCategory : BaseEntities<Int32>, IEntity<Int32>
     {
         public Guid UserId { get; set; }
+        public Int32? Pid { get; set; }
         [MaxLength(100)]
         public string NameCategory { get; set; }
         [MaxLength(100)]

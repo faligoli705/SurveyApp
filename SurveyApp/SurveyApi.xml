@@ -16,6 +16,17 @@
             <param name="repository"></param>
             <param name="mapper"></param>
         </member>
+        <member name="T:SurveyApp.Controllers.HomeController">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:SurveyApp.Controllers.HomeController._repository">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:SurveyApp.Controllers.OfferedAnswersController.#ctor(SurveyApp.DataAccessLayer.Contracts.IBaseRepository{SurveyApp.DomainClass.Entities.OfferedAnswers},AutoMapper.IMapper)">
             <summary>
             
@@ -28,7 +39,14 @@
             
             </summary>
         </member>
-        <member name="M:SurveyApp.Controllers.QuestionController.#ctor(SurveyApp.DataAccessLayer.Contracts.IBaseRepository{SurveyApp.DomainClass.Entities.Questions},AutoMapper.IMapper)">
+        <member name="F:SurveyApp.Controllers.QuestionController._questionRepository">
+            <summary>
+            
+            </summary>
+            <param name="repository"></param>
+            <param name="mapper"></param>
+        </member>
+        <member name="M:SurveyApp.Controllers.SurveyController.#ctor(SurveyApp.DataAccessLayer.Contracts.IBaseRepository{SurveyApp.DomainClass.Entities.Survey},AutoMapper.IMapper)">
             <summary>
             
             </summary>
@@ -40,7 +58,7 @@
             
             </summary>
         </member>
-        <member name="M:SurveyApp.Controllers.UserController.#ctor(SurveyApp.DataAccessLayer.Contracts.IUserRepository,Microsoft.Extensions.Logging.ILogger{SurveyApp.Controllers.UserController},Microsoft.AspNetCore.Identity.UserManager{SurveyApp.DomainClass.Entities.Users},Microsoft.AspNetCore.Identity.RoleManager{SurveyApp.DomainClass.Entities.Roles},Microsoft.AspNetCore.Identity.SignInManager{SurveyApp.DomainClass.Entities.Users})">
+        <member name="M:SurveyApp.Controllers.UserController.#ctor(SurveyApp.DataAccessLayer.Contracts.IUserRepository,Microsoft.Extensions.Logging.ILogger{SurveyApp.Controllers.UserController},SurveyApp.Services.IJwtService,Microsoft.AspNetCore.Identity.UserManager{SurveyApp.DomainClass.Entities.Users},Microsoft.AspNetCore.Identity.RoleManager{SurveyApp.DomainClass.Entities.Roles},Microsoft.AspNetCore.Identity.SignInManager{SurveyApp.DomainClass.Entities.Users})">
             <summary>
             
             </summary>
@@ -57,6 +75,11 @@
             <param name="tokenRequest">The information of token request</param>
             <param name="cancellationToken"></param>
             <returns></returns>
+        </member>
+        <member name="T:SurveyApp.Models.UserDto">
+            <summary>
+            
+            </summary>
         </member>
         <member name="T:MyApi.Program">
             <summary>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -14,5 +15,8 @@ namespace SurveyApp.DomainClass.Entities
         [MaxLength(100)]
         public string Description { get; set; }
         public bool IsOpen { get; set; }
+
+   
+
     }
 }

@@ -15,6 +15,7 @@ namespace SurveyApp.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [AllowAnonymous]
+    //[Authorize]
 
     public class OfferedAnswersController : CrudController<OfferedAnswersDto, OfferedAnswers>
     {

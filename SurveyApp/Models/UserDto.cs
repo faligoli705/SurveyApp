@@ -5,13 +5,18 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace SurveyApp.Models
-{
+{/// <summary>
+/// 
+/// </summary>
     public class UserDto : BaseDto<UserDto, Users,Guid>, IValidatableObject
     {
+        public Guid RoleId { get; set; }
         [Required]
         public string FName { get; set; }
         [Required]
         public string LName { get; set; }
+
+        public string UserName { get; set; }
         public GenderType Gender { get; set; }
         [Required]
         public string EmailUser { get; set; }

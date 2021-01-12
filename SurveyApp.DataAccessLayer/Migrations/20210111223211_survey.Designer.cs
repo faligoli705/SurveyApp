@@ -10,7 +10,7 @@ using SurveyApp.DataAccessLayer;
 namespace SurveyApp.DataAccessLayer.Migrations
 {
     [DbContext(typeof(SurveyAppDbContext))]
-    [Migration("20210109124355_survey")]
+    [Migration("20210111223211_survey")]
     partial class survey
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -160,61 +160,6 @@ namespace SurveyApp.DataAccessLayer.Migrations
                     b.ToTable("OfferedAnswers");
                 });
 
-            modelBuilder.Entity("SurveyApp.DomainClass.Entities.Questions", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<DateTime?>("CreateDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DeleteDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDelete")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("PublishedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("QuestionExpiresOnDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("QuestionText")
-                        .IsRequired()
-                        .HasMaxLength(300)
-                        .HasColumnType("nvarchar(300)");
-
-                    b.Property<int?>("SurveyAnswerId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("SurveyQuestionsAnswerId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("SurveyQuestionsId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("UpdateDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid?>("UsersId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("SurveyAnswerId");
-
-                    b.HasIndex("SurveyQuestionsAnswerId");
-
-                    b.HasIndex("SurveyQuestionsId");
-
-                    b.HasIndex("UsersId");
-
-                    b.ToTable("Questions");
-                });
-
             modelBuilder.Entity("SurveyApp.DomainClass.Entities.Roles", b =>
                 {
                     b.Property<Guid>("Id")
@@ -279,9 +224,6 @@ namespace SurveyApp.DataAccessLayer.Migrations
                     b.Property<int?>("SurveyQuestionsAnswerId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("SurveyQuestionsId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Title")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
@@ -294,8 +236,6 @@ namespace SurveyApp.DataAccessLayer.Migrations
                     b.HasIndex("SurveyAnswerId");
 
                     b.HasIndex("SurveyQuestionsAnswerId");
-
-                    b.HasIndex("SurveyQuestionsId");
 
                     b.ToTable("Surveys");
                 });
@@ -326,9 +266,6 @@ namespace SurveyApp.DataAccessLayer.Migrations
                     b.Property<int?>("QuestionId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("SurveyId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime?>("UpdateDate")
                         .HasColumnType("datetime2");
 
@@ -340,8 +277,6 @@ namespace SurveyApp.DataAccessLayer.Migrations
                     b.HasIndex("OfferedAnswerId");
 
                     b.HasIndex("QuestionId");
-
-                    b.HasIndex("SurveyId");
 
                     b.HasIndex("UserId");
 
@@ -368,11 +303,14 @@ namespace SurveyApp.DataAccessLayer.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<int?>("Pid")
+                        .HasColumnType("int");
+
                     b.Property<string>("SubNameCategory")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<int?>("SurveyQuestionsId")
+                    b.Property<int?>("SurveyQuestionsAnswerId")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("UpdateDate")
@@ -383,7 +321,7 @@ namespace SurveyApp.DataAccessLayer.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("SurveyQuestionsId");
+                    b.HasIndex("SurveyQuestionsAnswerId");
 
                     b.ToTable("SurveyCategories");
                 });
@@ -395,9 +333,6 @@ namespace SurveyApp.DataAccessLayer.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime?>("CreateDate")
                         .HasColumnType("datetime2");
 
@@ -407,27 +342,39 @@ namespace SurveyApp.DataAccessLayer.Migrations
                     b.Property<bool>("IsDelete")
                         .HasColumnType("bit");
 
-                    b.Property<int>("QuestionId")
+                    b.Property<DateTime?>("PublishedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("QuestionExpiresOnDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("QuestionText")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
+
+                    b.Property<int?>("SurveyAnswerId")
                         .HasColumnType("int");
 
                     b.Property<int>("SurveyId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("SurveyQuestionsAnswerId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime?>("UpdateDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("UserId")
+                    b.Property<Guid?>("UsersId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CategoryId");
+                    b.HasIndex("SurveyAnswerId");
 
-                    b.HasIndex("QuestionId");
+                    b.HasIndex("SurveyQuestionsAnswerId");
 
-                    b.HasIndex("SurveyId");
-
-                    b.HasIndex("UserId");
+                    b.HasIndex("UsersId");
 
                     b.ToTable("SurveyQuestions");
                 });
@@ -439,6 +386,9 @@ namespace SurveyApp.DataAccessLayer.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
+                    b.Property<int?>("CategoryId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime?>("CreateDate")
                         .HasColumnType("datetime2");
 
@@ -448,13 +398,13 @@ namespace SurveyApp.DataAccessLayer.Migrations
                     b.Property<bool>("IsDelete")
                         .HasColumnType("bit");
 
-                    b.Property<int>("OfferedAnswerId")
+                    b.Property<int?>("OfferedAnswerId")
                         .HasColumnType("int");
 
-                    b.Property<int>("QuestionId")
+                    b.Property<int?>("QuestionId")
                         .HasColumnType("int");
 
-                    b.Property<int>("SurveyId")
+                    b.Property<int?>("SurveyId")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("UpdateDate")
@@ -464,6 +414,8 @@ namespace SurveyApp.DataAccessLayer.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
 
                     b.HasIndex("OfferedAnswerId");
 
@@ -502,10 +454,6 @@ namespace SurveyApp.DataAccessLayer.Migrations
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
-
-                    b.Property<string>("EmailUser")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("FName")
                         .IsRequired()
@@ -564,9 +512,6 @@ namespace SurveyApp.DataAccessLayer.Migrations
                     b.Property<int?>("SurveyQuestionsAnswerId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("SurveyQuestionsId")
-                        .HasColumnType("int");
-
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
 
@@ -577,11 +522,6 @@ namespace SurveyApp.DataAccessLayer.Migrations
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("UserPasswordHash")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
 
                     b.HasKey("Id");
 
@@ -596,8 +536,6 @@ namespace SurveyApp.DataAccessLayer.Migrations
                     b.HasIndex("SurveyAnswerId");
 
                     b.HasIndex("SurveyQuestionsAnswerId");
-
-                    b.HasIndex("SurveyQuestionsId");
 
                     b.ToTable("AspNetUsers");
                 });
@@ -664,25 +602,6 @@ namespace SurveyApp.DataAccessLayer.Migrations
                         .HasForeignKey("SurveyQuestionsAnswerId");
                 });
 
-            modelBuilder.Entity("SurveyApp.DomainClass.Entities.Questions", b =>
-                {
-                    b.HasOne("SurveyApp.DomainClass.Entities.SurveyAnswer", null)
-                        .WithMany("ChildQuestions")
-                        .HasForeignKey("SurveyAnswerId");
-
-                    b.HasOne("SurveyApp.DomainClass.Entities.SurveyQuestionsAnswer", null)
-                        .WithMany("ChildQuestions")
-                        .HasForeignKey("SurveyQuestionsAnswerId");
-
-                    b.HasOne("SurveyApp.DomainClass.Entities.SurveyQuestions", null)
-                        .WithMany("ChlidQuestions")
-                        .HasForeignKey("SurveyQuestionsId");
-
-                    b.HasOne("SurveyApp.DomainClass.Entities.Users", null)
-                        .WithMany("ChildQuestions")
-                        .HasForeignKey("UsersId");
-                });
-
             modelBuilder.Entity("SurveyApp.DomainClass.Entities.Survey", b =>
                 {
                     b.HasOne("SurveyApp.DomainClass.Entities.SurveyAnswer", null)
@@ -692,10 +611,6 @@ namespace SurveyApp.DataAccessLayer.Migrations
                     b.HasOne("SurveyApp.DomainClass.Entities.SurveyQuestionsAnswer", null)
                         .WithMany("ChildSurvey")
                         .HasForeignKey("SurveyQuestionsAnswerId");
-
-                    b.HasOne("SurveyApp.DomainClass.Entities.SurveyQuestions", null)
-                        .WithMany("ChildSurvey")
-                        .HasForeignKey("SurveyQuestionsId");
                 });
 
             modelBuilder.Entity("SurveyApp.DomainClass.Entities.SurveyAnswer", b =>
@@ -704,7 +619,56 @@ namespace SurveyApp.DataAccessLayer.Migrations
                         .WithMany()
                         .HasForeignKey("OfferedAnswerId");
 
-                    b.HasOne("SurveyApp.DomainClass.Entities.Questions", "Questions")
+                    b.HasOne("SurveyApp.DomainClass.Entities.SurveyQuestions", "Questions")
+                        .WithMany()
+                        .HasForeignKey("QuestionId");
+
+                    b.HasOne("SurveyApp.DomainClass.Entities.Users", "Users")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("OfferedAnswers");
+
+                    b.Navigation("Questions");
+
+                    b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("SurveyApp.DomainClass.Entities.SurveyCategory", b =>
+                {
+                    b.HasOne("SurveyApp.DomainClass.Entities.SurveyQuestionsAnswer", null)
+                        .WithMany("ChlidSurveyCategory")
+                        .HasForeignKey("SurveyQuestionsAnswerId");
+                });
+
+            modelBuilder.Entity("SurveyApp.DomainClass.Entities.SurveyQuestions", b =>
+                {
+                    b.HasOne("SurveyApp.DomainClass.Entities.SurveyAnswer", null)
+                        .WithMany("ChildQuestions")
+                        .HasForeignKey("SurveyAnswerId");
+
+                    b.HasOne("SurveyApp.DomainClass.Entities.SurveyQuestionsAnswer", null)
+                        .WithMany("ChildQuestions")
+                        .HasForeignKey("SurveyQuestionsAnswerId");
+
+                    b.HasOne("SurveyApp.DomainClass.Entities.Users", null)
+                        .WithMany("ChildQuestions")
+                        .HasForeignKey("UsersId");
+                });
+
+            modelBuilder.Entity("SurveyApp.DomainClass.Entities.SurveyQuestionsAnswer", b =>
+                {
+                    b.HasOne("SurveyApp.DomainClass.Entities.SurveyCategory", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId");
+
+                    b.HasOne("SurveyApp.DomainClass.Entities.OfferedAnswers", "OfferedAnswers")
+                        .WithMany()
+                        .HasForeignKey("OfferedAnswerId");
+
+                    b.HasOne("SurveyApp.DomainClass.Entities.SurveyQuestions", "Questions")
                         .WithMany()
                         .HasForeignKey("QuestionId");
 
@@ -718,82 +682,7 @@ namespace SurveyApp.DataAccessLayer.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("OfferedAnswers");
-
-                    b.Navigation("Questions");
-
-                    b.Navigation("Survey");
-
-                    b.Navigation("Users");
-                });
-
-            modelBuilder.Entity("SurveyApp.DomainClass.Entities.SurveyCategory", b =>
-                {
-                    b.HasOne("SurveyApp.DomainClass.Entities.SurveyQuestions", null)
-                        .WithMany("ChlidSurveyCategory")
-                        .HasForeignKey("SurveyQuestionsId");
-                });
-
-            modelBuilder.Entity("SurveyApp.DomainClass.Entities.SurveyQuestions", b =>
-                {
-                    b.HasOne("SurveyApp.DomainClass.Entities.SurveyCategory", "Category")
-                        .WithMany()
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("SurveyApp.DomainClass.Entities.Questions", "Questions")
-                        .WithMany()
-                        .HasForeignKey("QuestionId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("SurveyApp.DomainClass.Entities.Survey", "Survey")
-                        .WithMany()
-                        .HasForeignKey("SurveyId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("SurveyApp.DomainClass.Entities.Users", "Users")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.Navigation("Category");
-
-                    b.Navigation("Questions");
-
-                    b.Navigation("Survey");
-
-                    b.Navigation("Users");
-                });
-
-            modelBuilder.Entity("SurveyApp.DomainClass.Entities.SurveyQuestionsAnswer", b =>
-                {
-                    b.HasOne("SurveyApp.DomainClass.Entities.OfferedAnswers", "OfferedAnswers")
-                        .WithMany()
-                        .HasForeignKey("OfferedAnswerId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("SurveyApp.DomainClass.Entities.Questions", "Questions")
-                        .WithMany()
-                        .HasForeignKey("QuestionId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("SurveyApp.DomainClass.Entities.Survey", "Survey")
-                        .WithMany()
-                        .HasForeignKey("SurveyId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("SurveyApp.DomainClass.Entities.Users", "Users")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
 
                     b.Navigation("OfferedAnswers");
 
@@ -813,10 +702,6 @@ namespace SurveyApp.DataAccessLayer.Migrations
                     b.HasOne("SurveyApp.DomainClass.Entities.SurveyQuestionsAnswer", null)
                         .WithMany("ChildUsers")
                         .HasForeignKey("SurveyQuestionsAnswerId");
-
-                    b.HasOne("SurveyApp.DomainClass.Entities.SurveyQuestions", null)
-                        .WithMany("ChildUsers")
-                        .HasForeignKey("SurveyQuestionsId");
                 });
 
             modelBuilder.Entity("SurveyApp.DomainClass.Entities.SurveyAnswer", b =>
@@ -830,17 +715,6 @@ namespace SurveyApp.DataAccessLayer.Migrations
                     b.Navigation("ChildUsers");
                 });
 
-            modelBuilder.Entity("SurveyApp.DomainClass.Entities.SurveyQuestions", b =>
-                {
-                    b.Navigation("ChildSurvey");
-
-                    b.Navigation("ChildUsers");
-
-                    b.Navigation("ChlidQuestions");
-
-                    b.Navigation("ChlidSurveyCategory");
-                });
-
             modelBuilder.Entity("SurveyApp.DomainClass.Entities.SurveyQuestionsAnswer", b =>
                 {
                     b.Navigation("ChildOfferedAnswers");
@@ -850,6 +724,8 @@ namespace SurveyApp.DataAccessLayer.Migrations
                     b.Navigation("ChildSurvey");
 
                     b.Navigation("ChildUsers");
+
+                    b.Navigation("ChlidSurveyCategory");
                 });
 
             modelBuilder.Entity("SurveyApp.DomainClass.Entities.Users", b =>

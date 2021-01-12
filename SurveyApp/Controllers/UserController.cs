@@ -23,34 +23,37 @@ namespace SurveyApp.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [AllowAnonymous]
-    public class UserController : BaseController
+    //[Authorize]
+    public class UserController : BaseController 
     {
-        private readonly IUserRepository userRepository;
-        private readonly ILogger<UserController> logger;
-        //private readonly IJwtService jwtService;
-        private readonly UserManager<Users> userManager;
-        private readonly RoleManager<Roles> roleManager;
-        private readonly SignInManager<Users> signInManager;
+        private readonly IUserRepository _userRepository;
+        private readonly ILogger<UserController> _logger;
+        private readonly IJwtService _jwtService;
+        private readonly UserManager<Users> _userManager;
+        private readonly RoleManager<Roles> _roleManager;
+        private readonly SignInManager<Users> _signInManager;
 
+       
         /// <summary>
         /// 
         /// </summary>
         /// <param name="userRepository"></param>
         /// <param name="logger"></param>
-         /// <param name="userManager"></param>
+        /// <param name="userManager"></param>
         /// <param name="roleManager"></param>
         /// <param name="signInManager"></param>
-         public UserController(IUserRepository userRepository, ILogger<UserController> logger, 
-        UserManager<Users> userManager, RoleManager<Roles> roleManager, SignInManager<Users> signInManager)
+        public UserController(IUserRepository userRepository, ILogger<UserController> logger, IJwtService jwtService,
+       UserManager<Users> userManager, RoleManager<Roles> roleManager, SignInManager<Users> signInManager)
         {
-            this.userRepository = userRepository;
-            this.logger = logger;
-             this.userManager = userManager;
-            this.roleManager = roleManager;
-            this.signInManager = signInManager;
+            this._userRepository = userRepository;
+            this._logger = logger;
+            this._jwtService = jwtService;
+            this._userManager = userManager;
+            this._roleManager = roleManager;
+            this._signInManager = signInManager;
         }
 
-       
+
 
         [HttpGet]
         //[Authorize(Roles = "Admin")]
@@ -64,22 +67,22 @@ namespace SurveyApp.Controllers
             //var phone = HttpContext.User.Identity.FindFirstValue(ClaimTypes.MobilePhone);
             //var role = HttpContext.User.Identity.FindFirstValue(ClaimTypes.Role);
 
-            var users = await userRepository.TableNoTracking.ToListAsync(cancellationToken);
-            return Ok( users);
+            var users = await _userRepository.TableNoTracking.ToListAsync(cancellationToken);
+            return Ok(users);
         }
 
         [HttpGet("{id:int}")]
         [AllowAnonymous]
         public virtual async Task<ApiResult<Users>> Get(int id, CancellationToken cancellationToken)
         {
-            var user2 = await userManager.FindByIdAsync(id.ToString());
-            var role = await roleManager.FindByNameAsync("Admin");
+            var user2 = await _userManager.FindByIdAsync(id.ToString());
+            var role = await _roleManager.FindByNameAsync("Admin");
 
-            var user = await userRepository.GetByIdAsync(cancellationToken, id);
+            var user = await _userRepository.GetByIdAsync(cancellationToken, id);
             if (user == null)
                 return NotFound();
 
-            await userManager.UpdateSecurityStampAsync(user);
+            await _userManager.UpdateSecurityStampAsync(user);
             //await userRepository.UpdateSecurityStampAsync(user, cancellationToken);
 
             return user;
@@ -99,11 +102,11 @@ namespace SurveyApp.Controllers
                 throw new Exception("OAuth flow is not password.");
 
             //var user = await userRepository.GetByUserAndPass(username, password, cancellationToken);
-            var user = await userManager.FindByNameAsync(tokenRequest.username);
+            var user = await _userManager.FindByNameAsync(tokenRequest.username);
             if (user == null)
                 throw new BadRequestException("نام کاربری یا رمز عبور اشتباه است");
 
-            var isPasswordValid = await userManager.CheckPasswordAsync(user, tokenRequest.password);
+            var isPasswordValid = await _userManager.CheckPasswordAsync(user, tokenRequest.password);
             if (!isPasswordValid)
                 throw new BadRequestException("نام کاربری یا رمز عبور اشتباه است");
 
@@ -111,7 +114,7 @@ namespace SurveyApp.Controllers
             //if (user == null)
             //    throw new BadRequestException("نام کاربری یا رمز عبور اشتباه است");
 
-            //var jwt = await jwtService.GenerateAsync(user);
+            var jwt = await _jwtService.GenerateAsync(user);
             return new JsonResult(user);
         }
 
@@ -119,9 +122,9 @@ namespace SurveyApp.Controllers
         [AllowAnonymous]
         public virtual async Task<ApiResult<Users>> Create(UserDto userDto, CancellationToken cancellationToken)
         {
-            logger.LogError("متد Create فراخوانی شد");
+            _logger.LogError("متد Create فراخوانی شد");
 
-            var exists = await userRepository.TableNoTracking.AnyAsync(p => p.EmailUser == userDto.EmailUser);
+            var exists = await _userRepository.TableNoTracking.AnyAsync(p => p.UserName ==userDto.UserName);
             if (exists)
                 return BadRequest("نام کاربری تکراری است");
 
@@ -131,18 +134,20 @@ namespace SurveyApp.Controllers
                 FName = userDto.FName,
                 LName = userDto.LName,
                 Gender = userDto.Gender,
-                EmailUser = userDto.EmailUser,
-                UserPasswordHash=userDto.UserPassword,
-                UserName=userDto.EmailUser
-                
+                RoleId=userDto.RoleId,
+                UserName=userDto.UserName,
+                Email=userDto.EmailUser
+
+
+
             };
             //var result = await userManager.CreateAsync(user, userDto.UserPassword);
-            var result = await userManager.CreateAsync(user,userDto.UserPassword);
-            //var result2 = await roleManager.CreateAsync(new Roles
-            //{
-            //    Name = "Admin",
-            //    Description = "admin role"
-            //});
+            var result = await _userManager.CreateAsync(user, userDto.UserPassword);
+            var result2 = await _roleManager.CreateAsync(new Roles
+            {
+                Name = "Admin",
+                Description = "admin role"
+            });
 
             //var result3 = await userManager.AddToRoleAsync(user, "Admin");
 
@@ -154,7 +159,7 @@ namespace SurveyApp.Controllers
         [AllowAnonymous]
         public virtual async Task<ApiResult> Update(int id, Users user, CancellationToken cancellationToken)
         {
-            var updateUser = await userRepository.GetByIdAsync(cancellationToken, id);
+            var updateUser = await _userRepository.GetByIdAsync(cancellationToken, id);
 
             updateUser.UserName = user.UserName;
             updateUser.PasswordHash = user.PasswordHash;
@@ -164,7 +169,7 @@ namespace SurveyApp.Controllers
             updateUser.IsActive = user.IsActive;
             updateUser.LastLoginDate = user.LastLoginDate;
 
-            await userRepository.UpdateAsync(updateUser, cancellationToken);
+            await _userRepository.UpdateAsync(updateUser, cancellationToken);
 
             return Ok();
         }
@@ -173,8 +178,8 @@ namespace SurveyApp.Controllers
         [AllowAnonymous]
         public virtual async Task<ApiResult> Delete(int id, CancellationToken cancellationToken)
         {
-            var user = await userRepository.GetByIdAsync(cancellationToken, id);
-            await userRepository.DeleteAsync(user, cancellationToken);
+            var user = await _userRepository.GetByIdAsync(cancellationToken, id);
+            await _userRepository.DeleteAsync(user, cancellationToken);
 
             return Ok();
         }

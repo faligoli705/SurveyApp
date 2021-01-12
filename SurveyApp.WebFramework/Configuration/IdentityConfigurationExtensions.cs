@@ -8,7 +8,7 @@ namespace SurveyApp.WebFramework.Configuration
 {
     public static class IdentityConfigurationExtensions
     {
-        public static void AddCustomIdentity(this IServiceCollection services)
+        public static void AddCustomIdentity(this IServiceCollection services, IdentitySettings identitySettings)
         {
             services.AddIdentity<Users, Roles>(identityOptions =>
             {
