@@ -64,6 +64,7 @@
             </summary>
             <param name="userRepository"></param>
             <param name="logger"></param>
+            <param name="jwtService"></param>
             <param name="userManager"></param>
             <param name="roleManager"></param>
             <param name="signInManager"></param>

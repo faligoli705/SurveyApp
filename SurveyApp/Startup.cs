@@ -18,7 +18,7 @@ namespace SurveyApp
     {
         private readonly IdentitySettings _identitySettings;
         private readonly JwtSettings _jwtSettings;
-        public IConfiguration Configuration { get; }
+         public IConfiguration Configuration { get; }
 
         public Startup(IConfiguration configuration)
         {
