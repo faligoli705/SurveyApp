@@ -32,11 +32,11 @@ namespace SurveyApp.DataAccessLayer
             return UpdateAsync(user, cancellationToken);
         }
 
-        //public override void Update(User entity, bool saveNow = true)
-        //{
-        //    entity.SecurityStamp = Guid.NewGuid();
-        //    base.Update(entity, saveNow);
-        //}
+        public override void Update(Users entity, bool saveNow = true)
+        {
+            entity.SecurityStamp = Guid.NewGuid().ToString();
+            base.Update(entity, saveNow);
+        }
 
         public Task UpdateLastLoginDateAsync(Users user, CancellationToken cancellationToken)
         {

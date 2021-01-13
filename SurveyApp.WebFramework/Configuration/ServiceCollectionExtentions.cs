@@ -51,7 +51,7 @@ namespace SurveyApp.WebFramework.Configuration
 
         }
 
-        public static void AddJwtAuthentication(this IServiceCollection services, JwtSettings jwtSettings)
+        public static void AddJwtAuthentication(this IServiceCollection services,JwtSettings jwtSettings)
         {
            
 
@@ -62,8 +62,9 @@ namespace SurveyApp.WebFramework.Configuration
                 options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
             }).AddJwtBearer(options =>
             {
-                var secretKey = Encoding.UTF8.GetBytes(jwtSettings.SecretKey);
-                var encryptionKey = Encoding.UTF8.GetBytes(jwtSettings.EncryptKey);
+                
+                var secretKey = Encoding.UTF8.GetBytes("jwtSettings:SecretKey");
+                var encryptionKey = Encoding.UTF8.GetBytes("jwtSettings:EncryptKey");
 
                 var validationParameters = new TokenValidationParameters
                 {
@@ -77,11 +78,11 @@ namespace SurveyApp.WebFramework.Configuration
                     ValidateLifetime = true,
 
                     ValidateAudience = true, //default : false
-                    ValidAudience = jwtSettings.Audience,
+                    ValidAudience = "jwtSettings:Audience",
 
                     ValidateIssuer = true, //default : false
-                    ValidIssuer = jwtSettings.Issuer,
-
+                    ValidIssuer = "jwtSettings:Issuer",
+ 
                     TokenDecryptionKey = new SymmetricSecurityKey(encryptionKey)
                 };
 

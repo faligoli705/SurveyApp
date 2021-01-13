@@ -11,6 +11,7 @@ namespace SurveyApp.DomainClass.Entities
    public class SurveyQuestions: BaseEntities<Int32>,IEntity<Int32>
     {
         public Int32 SurveyId { get; set; }
+        public Guid? RoleId { get; set; }
         [Required]
         [MaxLength(300)]
         public string QuestionText { get; set; }
@@ -19,8 +20,11 @@ namespace SurveyApp.DomainClass.Entities
 
 
         public Survey Survey { get; set; }
-
+        public Users Users { get; set; }
         [ForeignKey(nameof(SurveyId))]
-        public Survey ChildSurvey { get; set; }
+        public ICollection<Survey> ChildSurvey { get; set; }
+        [ForeignKey(nameof(RoleId))]
+
+        public ICollection<Roles> ChildRoles { get; set; }
     }
 }

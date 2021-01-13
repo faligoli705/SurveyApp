@@ -5,7 +5,7 @@ using Microsoft.OpenApi.Models;
 using System;
 using Microsoft.AspNetCore.Authorization;
 
-namespace SurveyApp.WebFramework.Swagger
+namespace WebFramework.Swagger
 {
     public class UnauthorizedResponsesOperationFilter : IOperationFilter
     {

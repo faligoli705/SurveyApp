@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace SurveyApp.DataAccessLayer.Repositories
 {
-    public interface IQuestionRepository : IBaseRepository<SurveyQuestions>,IScopedDependency
+    public interface IOfferedAnswerRepository : IBaseRepository<OfferedAnswers>, IScopedDependency
     {
-        Task AddAsync(SurveyQuestions surveyQuestion, CancellationToken cancellationToken);
+        Task AddAsync(OfferedAnswers offeredAnswers, CancellationToken cancellationToken);
     }
 }

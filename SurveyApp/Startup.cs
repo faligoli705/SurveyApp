@@ -5,17 +5,20 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SurveyApp.DataAccessLayer;
 using SurveyApp.DataAccessLayer.Contracts;
+using SurveyApp.DataAccessLayer.Repositories;
 using SurveyApp.Infrastucture;
 using SurveyApp.Services;
 using SurveyApp.WebFramework.Configuration;
 using SurveyApp.WebFramework.CustomMapping;
 using SurveyApp.WebFramework.Middlewares;
-using SurveyApp.WebFramework.Swagger;
+using WebFramework.Swagger;
 
 namespace SurveyApp
 {
     public class Startup
     {
+        
+        private readonly SiteSetting _siteSetting;
         private readonly IdentitySettings _identitySettings;
         private readonly JwtSettings _jwtSettings;
          public IConfiguration Configuration { get; }
@@ -25,7 +28,7 @@ namespace SurveyApp
             Configuration = configuration;
 
             _identitySettings = configuration.GetSection(nameof(IdentitySettings)).Get<IdentitySettings>();
-            _jwtSettings = configuration.GetSection(nameof(JwtSettings)).Get<JwtSettings>();
+            _jwtSettings = configuration.GetSection("JwtSettings").Get<JwtSettings>();
         }
 
         public void ConfigureServices(IServiceCollection services)
@@ -39,11 +42,12 @@ namespace SurveyApp
 
             services.AddMinimalMvc();
 
-            services.AddJwtAuthentication(_jwtSettings);
+             services.AddJwtAuthentication(_jwtSettings);
             services.AddScoped<IJwtService, JwtService>();
 
             services.AddScoped(typeof(IUserRepository), typeof(UserRepository));
             services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
+            services.AddScoped(typeof(IOfferedAnswerRepository), typeof(OfferedAnswerRepository));
 
             services.AddSwagger();
 
@@ -69,12 +73,7 @@ namespace SurveyApp
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Login}/{id?}");
-            });
+          
             app.UseEndpoints(config =>
             {
                 config.MapControllers(); // Map attribute routing

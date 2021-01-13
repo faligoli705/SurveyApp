@@ -9,6 +9,7 @@ namespace SurveyApp.Models
 {
     public class SurveyCategoryDto : BaseDto<SurveyCategoryDto, SurveyCategory,Int32>
     {
+        public int Pid { get; set; }
         public string NameCategory { get; set; }
         public string SubNameCategory { get; set; }
     }

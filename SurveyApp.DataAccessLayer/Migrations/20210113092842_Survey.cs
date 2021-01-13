@@ -3,25 +3,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SurveyApp.DataAccessLayer.Migrations
 {
-    public partial class survey : Migration
+    public partial class Survey : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "AspNetRoles",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "NEWSEQUENTIALID()"),
-                    Description = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    NormalizedName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AspNetRoles", x => x.Id);
-                });
-
             migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
@@ -35,12 +20,6 @@ namespace SurveyApp.DataAccessLayer.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetRoleClaims", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_AspNetRoleClaims_AspNetRoles_RoleId",
-                        column: x => x.RoleId,
-                        principalTable: "AspNetRoles",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -53,12 +32,6 @@ namespace SurveyApp.DataAccessLayer.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUserRoles", x => new { x.UserId, x.RoleId });
-                    table.ForeignKey(
-                        name: "FK_AspNetUserRoles_AspNetRoles_RoleId",
-                        column: x => x.RoleId,
-                        principalTable: "AspNetRoles",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -131,12 +104,13 @@ namespace SurveyApp.DataAccessLayer.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     SurveyId = table.Column<int>(type: "int", nullable: false),
+                    RoleId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     QuestionText = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: false),
                     QuestionExpiresOnDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     PublishedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UsersId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     SurveyAnswerId = table.Column<int>(type: "int", nullable: true),
                     SurveyQuestionsAnswerId = table.Column<int>(type: "int", nullable: true),
-                    UsersId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CreateDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     DeleteDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     UpdateDate = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -154,6 +128,28 @@ namespace SurveyApp.DataAccessLayer.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "AspNetRoles",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "NEWSEQUENTIALID()"),
+                    Description = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    RoleId = table.Column<int>(type: "int", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    NormalizedName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetRoles", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AspNetRoles_SurveyQuestions_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "SurveyQuestions",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "SurveyQuestionsAnswers",
                 columns: table => new
                 {
@@ -162,7 +158,6 @@ namespace SurveyApp.DataAccessLayer.Migrations
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     QuestionId = table.Column<int>(type: "int", nullable: true),
                     OfferedAnswerId = table.Column<int>(type: "int", nullable: true),
-                    CategoryId = table.Column<int>(type: "int", nullable: true),
                     SurveyId = table.Column<int>(type: "int", nullable: true),
                     CreateDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     DeleteDate = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -297,6 +292,7 @@ namespace SurveyApp.DataAccessLayer.Migrations
                     Description = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     IsOpen = table.Column<bool>(type: "bit", nullable: false),
                     SurveyAnswerId = table.Column<int>(type: "int", nullable: true),
+                    SurveyId = table.Column<int>(type: "int", nullable: true),
                     SurveyQuestionsAnswerId = table.Column<int>(type: "int", nullable: true),
                     CreateDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     DeleteDate = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -313,6 +309,12 @@ namespace SurveyApp.DataAccessLayer.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
+                        name: "FK_Surveys_SurveyQuestions_SurveyId",
+                        column: x => x.SurveyId,
+                        principalTable: "SurveyQuestions",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
                         name: "FK_Surveys_SurveyQuestionsAnswers_SurveyQuestionsAnswerId",
                         column: x => x.SurveyQuestionsAnswerId,
                         principalTable: "SurveyQuestionsAnswers",
@@ -323,6 +325,11 @@ namespace SurveyApp.DataAccessLayer.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
+                column: "RoleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetRoles_RoleId",
+                table: "AspNetRoles",
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
@@ -405,6 +412,11 @@ namespace SurveyApp.DataAccessLayer.Migrations
                 column: "SurveyAnswerId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_SurveyQuestions_SurveyId",
+                table: "SurveyQuestions",
+                column: "SurveyId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_SurveyQuestions_SurveyQuestionsAnswerId",
                 table: "SurveyQuestions",
                 column: "SurveyQuestionsAnswerId");
@@ -413,11 +425,6 @@ namespace SurveyApp.DataAccessLayer.Migrations
                 name: "IX_SurveyQuestions_UsersId",
                 table: "SurveyQuestions",
                 column: "UsersId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_SurveyQuestionsAnswers_CategoryId",
-                table: "SurveyQuestionsAnswers",
-                column: "CategoryId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_SurveyQuestionsAnswers_OfferedAnswerId",
@@ -445,9 +452,30 @@ namespace SurveyApp.DataAccessLayer.Migrations
                 column: "SurveyAnswerId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Surveys_SurveyId",
+                table: "Surveys",
+                column: "SurveyId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Surveys_SurveyQuestionsAnswerId",
                 table: "Surveys",
                 column: "SurveyQuestionsAnswerId");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_AspNetRoleClaims_AspNetRoles_RoleId",
+                table: "AspNetRoleClaims",
+                column: "RoleId",
+                principalTable: "AspNetRoles",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Restrict);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_AspNetUserRoles_AspNetRoles_RoleId",
+                table: "AspNetUserRoles",
+                column: "RoleId",
+                principalTable: "AspNetRoles",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Restrict);
 
             migrationBuilder.AddForeignKey(
                 name: "FK_AspNetUserRoles_AspNetUsers_UserId",
@@ -522,6 +550,14 @@ namespace SurveyApp.DataAccessLayer.Migrations
                 onDelete: ReferentialAction.Restrict);
 
             migrationBuilder.AddForeignKey(
+                name: "FK_SurveyQuestions_Surveys_SurveyId",
+                table: "SurveyQuestions",
+                column: "SurveyId",
+                principalTable: "Surveys",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Restrict);
+
+            migrationBuilder.AddForeignKey(
                 name: "FK_SurveyQuestionsAnswers_AspNetUsers_UserId",
                 table: "SurveyQuestionsAnswers",
                 column: "UserId",
@@ -538,14 +574,6 @@ namespace SurveyApp.DataAccessLayer.Migrations
                 onDelete: ReferentialAction.Restrict);
 
             migrationBuilder.AddForeignKey(
-                name: "FK_SurveyQuestionsAnswers_SurveyCategories_CategoryId",
-                table: "SurveyQuestionsAnswers",
-                column: "CategoryId",
-                principalTable: "SurveyCategories",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
-
-            migrationBuilder.AddForeignKey(
                 name: "FK_SurveyQuestionsAnswers_Surveys_SurveyId",
                 table: "SurveyQuestionsAnswers",
                 column: "SurveyId",
@@ -557,12 +585,20 @@ namespace SurveyApp.DataAccessLayer.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_SurveyAnswers_AspNetUsers_UserId",
+                name: "FK_SurveyAnswers_SurveyQuestions_QuestionId",
                 table: "SurveyAnswers");
 
             migrationBuilder.DropForeignKey(
-                name: "FK_SurveyQuestions_AspNetUsers_UsersId",
-                table: "SurveyQuestions");
+                name: "FK_SurveyQuestionsAnswers_SurveyQuestions_QuestionId",
+                table: "SurveyQuestionsAnswers");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_Surveys_SurveyQuestions_SurveyId",
+                table: "Surveys");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_SurveyAnswers_AspNetUsers_UserId",
+                table: "SurveyAnswers");
 
             migrationBuilder.DropForeignKey(
                 name: "FK_SurveyQuestionsAnswers_AspNetUsers_UserId",
@@ -573,24 +609,12 @@ namespace SurveyApp.DataAccessLayer.Migrations
                 table: "OfferedAnswers");
 
             migrationBuilder.DropForeignKey(
-                name: "FK_SurveyQuestions_SurveyAnswers_SurveyAnswerId",
-                table: "SurveyQuestions");
-
-            migrationBuilder.DropForeignKey(
                 name: "FK_Surveys_SurveyAnswers_SurveyAnswerId",
                 table: "Surveys");
 
             migrationBuilder.DropForeignKey(
                 name: "FK_OfferedAnswers_SurveyQuestionsAnswers_SurveyQuestionsAnswerId",
                 table: "OfferedAnswers");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_SurveyCategories_SurveyQuestionsAnswers_SurveyQuestionsAnswerId",
-                table: "SurveyCategories");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_SurveyQuestions_SurveyQuestionsAnswers_SurveyQuestionsAnswerId",
-                table: "SurveyQuestions");
 
             migrationBuilder.DropForeignKey(
                 name: "FK_Surveys_SurveyQuestionsAnswers_SurveyQuestionsAnswerId",
@@ -612,7 +636,13 @@ namespace SurveyApp.DataAccessLayer.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "SurveyCategories");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "SurveyQuestions");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
@@ -625,12 +655,6 @@ namespace SurveyApp.DataAccessLayer.Migrations
 
             migrationBuilder.DropTable(
                 name: "OfferedAnswers");
-
-            migrationBuilder.DropTable(
-                name: "SurveyCategories");
-
-            migrationBuilder.DropTable(
-                name: "SurveyQuestions");
 
             migrationBuilder.DropTable(
                 name: "Surveys");

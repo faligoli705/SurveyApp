@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace SurveyApp.DataAccessLayer.Repositories
 {
-    public class QuestionRepository : BaseRepository<SurveyQuestions>, IScopedDependency, IQuestionRepository
+    public class QuestionRepository : BaseRepository<SurveyQuestions>, IQuestionRepository, IScopedDependency
     {
         public QuestionRepository(SurveyAppDbContext dbContext)
             : base(dbContext)
@@ -19,7 +19,7 @@ namespace SurveyApp.DataAccessLayer.Repositories
         }
 
 
-        public async Task AddAsync(SurveyQuestions surveyQuestion, string password, CancellationToken cancellationToken)
+        public async Task AddAsync(SurveyQuestions surveyQuestion,  CancellationToken cancellationToken)
         {
             var exists = await TableNoTracking.AnyAsync(p => p.QuestionText == surveyQuestion.QuestionText);
             if (exists)

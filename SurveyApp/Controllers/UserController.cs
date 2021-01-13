@@ -10,6 +10,7 @@ using Microsoft.Extensions.Logging;
 using SurveyApp.DataAccessLayer.Contracts;
 using SurveyApp.DomainClass.Entities;
 using SurveyApp.Infrastucture.Execptions;
+using SurveyApp.Infrastucture.Utilities;
 using SurveyApp.Models;
 using SurveyApp.Services;
 using SurveyApp.WebFramework.Api;
@@ -20,10 +21,9 @@ namespace SurveyApp.Controllers
     /// <summary>
     /// 
     /// </summary>
-    [Route("api/[controller]")]
     [ApiController]
-    [AllowAnonymous]
-    //[Authorize]
+    //[AllowAnonymous]
+    [Authorize]
     public class UserController : BaseController
     {
         private readonly IUserRepository _userRepository;
@@ -57,8 +57,7 @@ namespace SurveyApp.Controllers
 
 
         [HttpGet]
-        //[Authorize(Roles = "Admin")]
-        [AllowAnonymous]
+        [Authorize(Roles = "9f998266-8455-eb11-9f34-8c736eabd2f2")]
         public virtual async Task<ActionResult<List<Users>>> Get(CancellationToken cancellationToken)
         {
             //var userName = HttpContext.User.Identity.GetUserName();
@@ -73,7 +72,7 @@ namespace SurveyApp.Controllers
         }
 
         [HttpGet("{id:int}")]
-        [AllowAnonymous]
+        [Authorize(Roles = "9f998266-8455-eb11-9f34-8c736eabd2f2")]
         public virtual async Task<ApiResult<Users>> Get(int id, CancellationToken cancellationToken)
         {
             var user2 = await _userManager.FindByIdAsync(id.ToString());
@@ -130,24 +129,24 @@ namespace SurveyApp.Controllers
             if (exists)
                 return BadRequest("نام کاربری تکراری است");
 
-
             var user = new Users
             {
                 FName = userDto.FName,
                 LName = userDto.LName,
                 Gender = userDto.Gender,
-                RoleId = userDto.RoleId,
+                RoleId = userDto.RoleId, //سطح دسترسی توسط ادمین مشخص میشود بصورت پیش فرض کاربر عادی
                 UserName = userDto.UserName,
-                Email = userDto.EmailUser
+                Email = userDto.EmailUser,
+                CreateDate=DateTime.Now
             };
             var result = await _userManager.CreateAsync(user, userDto.UserPassword);
-            var result2 = await _roleManager.CreateAsync(new Roles
-            {
-                Name = "Admin",
-                Description = "admin role"
-            });
+            //var result2 = await _roleManager.CreateAsync(new Roles
+            //{
+            //    Name = "Admin",
+            //    Description = "admin role"
+            //});
 
-            var result3 = await _userManager.AddToRoleAsync(user, "Admin");
+            var result3 = await _userManager.AddToRoleAsync(user, "3fa85f64-5717-4562-b3fc-2c963f66afa6");
             await _userRepository.AddAsync(user, userDto.UserPassword, cancellationToken);
             return user;
         }
@@ -158,6 +157,7 @@ namespace SurveyApp.Controllers
         {
             var updateUser = await _userRepository.GetByIdAsync(cancellationToken, id);
 
+            updateUser.RoleId = user.RoleId;
             updateUser.UserName = user.UserName;
             updateUser.PasswordHash = user.PasswordHash;
             updateUser.FName = user.FName;
@@ -172,7 +172,8 @@ namespace SurveyApp.Controllers
         }
 
         [HttpDelete]
-        [AllowAnonymous]
+        [Authorize(Roles = "9f998266-8455-eb11-9f34-8c736eabd2f2")]
+
         public virtual async Task<ApiResult> Delete(int id, CancellationToken cancellationToken)
         {
             var user = await _userRepository.GetByIdAsync(cancellationToken, id);

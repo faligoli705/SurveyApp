@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SurveyApp.DomainClass.Entities
 {
-   public class Roles: IdentityRole<Guid>,IEntity<Guid>
+   public class Roles: IdentityRole<Guid>, IEntity<Guid>
     {
     
         [Required]

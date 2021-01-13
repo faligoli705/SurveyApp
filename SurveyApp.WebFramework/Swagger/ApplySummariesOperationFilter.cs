@@ -4,12 +4,9 @@ using Pluralize.NET;
 using SurveyApp.Infrastucture.Utilities;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace SurveyApp.WebFramework.Swagger
+namespace WebFramework.Swagger
 {
     public class ApplySummariesOperationFilter : IOperationFilter
     {
@@ -35,43 +32,31 @@ namespace SurveyApp.WebFramework.Swagger
                 if (!operation.Summary.HasValue())
                     operation.Summary = $"Creates a {singularizeName}";
 
-                if (!operation.Parameters[0].Description.HasValue())
-                    operation.Parameters[0].Description = $"A {singularizeName} representation";
             }
             else if (IsActionName("Read", "Get"))
             {
                 if (!operation.Summary.HasValue())
                     operation.Summary = $"Retrieves a {singularizeName} by unique id";
-
-                //if (!operation.Parameters[0].Description.HasValue())
-                //    operation.Parameters[0].Description = $"a unique id for the {singularizeName}";
             }
             else if (IsActionName("Put", "Edit", "Update"))
             {
                 if (!operation.Summary.HasValue())
                     operation.Summary = $"Updates a {singularizeName} by unique id";
-
-                //if (!operation.Parameters[0].Description.HasValue())
-                //    operation.Parameters[0].Description = $"A unique id for the {singularizeName}";
-
-                if (!operation.Parameters[0].Description.HasValue())
-                    operation.Parameters[0].Description = $"A {singularizeName} representation";
             }
             else if (IsActionName("Delete", "Remove"))
             {
                 if (!operation.Summary.HasValue())
                     operation.Summary = $"Deletes a {singularizeName} by unique id";
 
-                if (!operation.Parameters[0].Description.HasValue())
-                    operation.Parameters[0].Description = $"A unique id for the {singularizeName}";
-            }
+                  }
 
             #region Local Functions
             bool IsGetAllAction()
             {
                 foreach (var name in new[] { "Get", "Read", "Select" })
                 {
-                    if (actionName.Equals($"{name}All", StringComparison.OrdinalIgnoreCase) ||
+                    if (
+                        actionName.Equals($"{name}All", StringComparison.OrdinalIgnoreCase) ||
                         actionName.Equals($"{name}{pluralizeName}", StringComparison.OrdinalIgnoreCase) ||
                         actionName.Equals($"{name}All{singularizeName}", StringComparison.OrdinalIgnoreCase) ||
                         actionName.Equals($"{name}All{pluralizeName}", StringComparison.OrdinalIgnoreCase))

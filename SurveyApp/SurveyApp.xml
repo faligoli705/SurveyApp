@@ -4,49 +4,43 @@
         <name>SurveyApp</name>
     </assembly>
     <members>
-        <member name="T:SurveyApp.Controllers.CategoyController">
+        <member name="T:SurveyApp.Controllers.CategoryController">
             <summary>
             
             </summary>
         </member>
-        <member name="M:SurveyApp.Controllers.CategoyController.#ctor(SurveyApp.DataAccessLayer.Contracts.IBaseRepository{SurveyApp.DomainClass.Entities.SurveyCategory},AutoMapper.IMapper)">
+        <member name="F:SurveyApp.Controllers.CategoryController._logger">
             <summary>
             
             </summary>
             <param name="repository"></param>
             <param name="mapper"></param>
         </member>
-        <member name="T:SurveyApp.Controllers.HomeController">
+        <member name="M:SurveyApp.Controllers.OfferedAnswersController.#ctor(SurveyApp.DataAccessLayer.Repositories.IOfferedAnswerRepository,Microsoft.Extensions.Logging.ILogger{SurveyApp.Controllers.OfferedAnswersController})">
             <summary>
             
             </summary>
+            <param name="logger"></param>
         </member>
-        <member name="F:SurveyApp.Controllers.HomeController._repository">
+        <member name="M:SurveyApp.Controllers.SurveyAnswerController.#ctor(SurveyApp.DataAccessLayer.Repositories.ISurveyAnswerRepository,Microsoft.Extensions.Logging.ILogger{SurveyApp.Controllers.SurveyAnswerController})">
             <summary>
             
             </summary>
-            <returns></returns>
-        </member>
-        <member name="M:SurveyApp.Controllers.OfferedAnswersController.#ctor(SurveyApp.DataAccessLayer.Contracts.IBaseRepository{SurveyApp.DomainClass.Entities.OfferedAnswers},AutoMapper.IMapper)">
-            <summary>
-            
-            </summary>
-            <param name="repository"></param>
-            <param name="mapper"></param>
-        </member>
-        <member name="T:SurveyApp.Controllers.QuestionController">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="F:SurveyApp.Controllers.QuestionController._questionRepository">
-            <summary>
-            
-            </summary>
-            <param name="repository"></param>
-            <param name="mapper"></param>
+            <param name="logger"></param>
         </member>
         <member name="M:SurveyApp.Controllers.SurveyController.#ctor(SurveyApp.DataAccessLayer.Contracts.IBaseRepository{SurveyApp.DomainClass.Entities.Survey},AutoMapper.IMapper)">
+            <summary>
+            
+            </summary>
+            <param name="repository"></param>
+            <param name="mapper"></param>
+        </member>
+        <member name="T:SurveyApp.Controllers.SurveyQuestionController">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:SurveyApp.Controllers.SurveyQuestionController._questionRepository">
             <summary>
             
             </summary>

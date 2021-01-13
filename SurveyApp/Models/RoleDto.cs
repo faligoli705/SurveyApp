@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace SurveyApp.Models
 {
-    public class RoleDto : IdentityRole<Guid>, IEntity<Guid>
+    public class RoleDto : IdentityRole<string>, IEntity<string>
     {
         public string Description { get; set; }
 

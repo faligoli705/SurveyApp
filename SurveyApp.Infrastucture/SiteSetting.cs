@@ -8,6 +8,7 @@ namespace SurveyApp.Infrastucture
 {
     public class SiteSetting
     {
+        public const string SiteSettings = "SiteSetting";
         public string NlogPath { get; set; }
         public JwtSettings JwtSettings { get; set; }
         public IdentitySettings IdentitySettings { get; set; }
