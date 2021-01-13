@@ -35,20 +35,16 @@ namespace SurveyApp
         {
             services.Configure<SiteSetting>(Configuration.GetSection(nameof(SiteSetting)));
             services.InitializeAutoMapper();
-
+            services.AddServices();
             services.AddDbContext(Configuration);
-
+           
             services.AddCustomIdentity(_identitySettings);
 
             services.AddMinimalMvc();
 
              services.AddJwtAuthentication(_jwtSettings);
-            services.AddScoped<IJwtService, JwtService>();
-
-            services.AddScoped(typeof(IUserRepository), typeof(UserRepository));
-            services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
-            services.AddScoped(typeof(IOfferedAnswerRepository), typeof(OfferedAnswerRepository));
-
+         
+ 
             services.AddSwagger();
 
             // Don't create a ContainerBuilder for Autofac here, and don't call builder.Populate()

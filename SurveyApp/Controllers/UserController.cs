@@ -104,13 +104,13 @@ namespace SurveyApp.Controllers
             if (!tokenRequest.grant_type.Equals("password", StringComparison.OrdinalIgnoreCase))
                 throw new Exception("OAuth flow is not password.");
 
-            var user = await _userRepository.GetByUserAndPass(tokenRequest.username, tokenRequest.password, cancellationToken);
-            var user1 = await _userManager.FindByNameAsync(tokenRequest.username);
+            var user1 = await _userRepository.GetByUserAndPass(tokenRequest.username, tokenRequest.password, cancellationToken);
+            var user = await _userManager.FindByNameAsync(tokenRequest.username);
             var isPasswordValid = await _userManager.CheckPasswordAsync(user, tokenRequest.password);
 
+            //if (user1 == null)
+            //    throw new BadRequestException("نام کاربری یا رمز عبور اشتباه است");
             if (user == null)
-                throw new BadRequestException("نام کاربری یا رمز عبور اشتباه است");
-            if (user1 == null)
                 throw new BadRequestException("نام کاربری یافت نشد");
             if (!isPasswordValid)
                 throw new BadRequestException("پسورد وارد شده اشتباه است");
@@ -131,10 +131,11 @@ namespace SurveyApp.Controllers
 
             var user = new Users
             {
+                Id=Guid.NewGuid(),
                 FName = userDto.FName,
                 LName = userDto.LName,
                 Gender = userDto.Gender,
-                RoleId = userDto.RoleId, //سطح دسترسی توسط ادمین مشخص میشود بصورت پیش فرض کاربر عادی
+                RoleId = userDto.RoleId,                         //سطح دسترسی توسط ادمین مشخص میشود بصورت پیش فرض کاربر عادی
                 UserName = userDto.UserName,
                 Email = userDto.EmailUser,
                 CreateDate=DateTime.Now
@@ -146,13 +147,13 @@ namespace SurveyApp.Controllers
             //    Description = "admin role"
             //});
 
-            var result3 = await _userManager.AddToRoleAsync(user, "3fa85f64-5717-4562-b3fc-2c963f66afa6");
+            var result3 = await _userManager.AddToRoleAsync(user, userDto.UserPassword);
             await _userRepository.AddAsync(user, userDto.UserPassword, cancellationToken);
             return user;
         }
 
         [HttpPut]
-        [AllowAnonymous]
+        [Authorize]
         public virtual async Task<ApiResult> Update(int id, Users user, CancellationToken cancellationToken)
         {
             var updateUser = await _userRepository.GetByIdAsync(cancellationToken, id);
