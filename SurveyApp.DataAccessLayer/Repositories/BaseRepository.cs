@@ -33,7 +33,7 @@ namespace SurveyApp.DataAccessLayer
         public virtual async Task AddAsync(TEntity entity, CancellationToken cancellationToken, bool saveNow = true)
         {
             Assert.NotNull(entity, nameof(entity));
-            await Entities.AddAsync(entity, cancellationToken);
+            await Entities.AddAsync(entity, cancellationToken);           
             if (saveNow)
                 await DbContext.SaveChangesAsync(cancellationToken);
         }
@@ -65,7 +65,10 @@ namespace SurveyApp.DataAccessLayer
         public virtual async Task DeleteAsync(TEntity entity, CancellationToken cancellationToken, bool saveNow = true)
         {
             Assert.NotNull(entity, nameof(entity));
-            Entities.Remove(entity);
+
+           DbContext.Entry(entity).State = EntityState.Modified;
+            
+            //Entities.Remove(entity);
             if (saveNow)
                 await DbContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
         }

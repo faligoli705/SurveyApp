@@ -178,9 +178,11 @@ namespace SurveyApp.Controllers
         public virtual async Task<ApiResult> Delete(int id, CancellationToken cancellationToken)
         {
             var user = await _userRepository.GetByIdAsync(cancellationToken, id);
+            user.IsDelete = true;
+            user.DeleteDate = DateTime.Now;
             await _userRepository.DeleteAsync(user, cancellationToken);
             return Ok();
         }
-
+ 
     }
 }

@@ -83,5 +83,15 @@ namespace SurveyApp.Controllers
             return Ok();
         }
 
+        [HttpDelete]
+         public virtual async Task<ApiResult> Delete(int id, CancellationToken cancellationToken)
+        {
+            var surveyQuestion = await _questionRepository.GetByIdAsync(cancellationToken, id);
+            surveyQuestion.IsDelete = true;
+            surveyQuestion.DeleteDate = DateTime.Now;
+            await _questionRepository.DeleteAsync(surveyQuestion, cancellationToken);
+            return Ok();
+        }
+
     }
 }

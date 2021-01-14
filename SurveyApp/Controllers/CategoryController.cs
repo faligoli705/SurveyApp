@@ -42,7 +42,7 @@ namespace SurveyApp.Controllers
 
 
         [HttpPost]
-        [Authorize(Roles ="d9d82ea5-9155-eb11-9f34-8c736eabd2f2")] //persone
+        [Authorize(Roles ="person")] //persone
 
         public virtual async Task<ApiResult<SurveyCategory>> Create(SurveyCategoryDto categoryDto, CancellationToken cancellationToken)
         {
@@ -79,10 +79,10 @@ namespace SurveyApp.Controllers
         [Authorize(Roles = "d9d82ea5-9155-eb11-9f34-8c736eabd2f2")]
         public virtual async Task<ApiResult> Delete(int id, CancellationToken cancellationToken)
         {
-            var offeredAnswer = await _categoyRepository.GetByIdAsync(cancellationToken, id);
-            offeredAnswer.IsDelete = true;
-            offeredAnswer.DeleteDate = DateTime.Now;
-            await _categoyRepository.DeleteAsync(offeredAnswer, cancellationToken);
+            var category = await _categoyRepository.GetByIdAsync(cancellationToken, id);
+            category.IsDelete = true;
+            category.DeleteDate = DateTime.Now;
+            await _categoyRepository.DeleteAsync(category, cancellationToken);
             return Ok();
         }
 

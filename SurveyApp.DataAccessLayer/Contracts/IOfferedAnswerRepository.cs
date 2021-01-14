@@ -9,5 +9,6 @@ namespace SurveyApp.DataAccessLayer.Repositories
     public interface IOfferedAnswerRepository : IBaseRepository<OfferedAnswers>, IScopedDependency
     {
         Task AddAsync(OfferedAnswers offeredAnswers, CancellationToken cancellationToken);
+        Task DeleteAsync(OfferedAnswers offeredAnswers, CancellationToken cancellationToken);
     }
 }

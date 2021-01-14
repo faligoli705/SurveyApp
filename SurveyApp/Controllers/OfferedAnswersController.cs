@@ -66,7 +66,8 @@ namespace SurveyApp.Controllers
         }
 
         [HttpDelete]
-        [Authorize(Roles = "d9d82ea5-9155-eb11-9f34-8c736eabd2f2")]
+        //[Authorize(Roles = "d9d82ea5-9155-eb11-9f34-8c736eabd2f2")]
+        [AllowAnonymous]
         public virtual async Task<ApiResult> Delete(int id, CancellationToken cancellationToken)
         {
             var offeredAnswer = await _offeredAnswerRepository.GetByIdAsync(cancellationToken, id);

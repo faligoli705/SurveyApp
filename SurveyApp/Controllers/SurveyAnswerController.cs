@@ -81,10 +81,10 @@ namespace SurveyApp.Controllers
         [Authorize(Roles = "d9d82ea5-9155-eb11-9f34-8c736eabd2f2")] //persone
         public virtual async Task<ApiResult> Delete(int id, CancellationToken cancellationToken)
         {
-            var offeredAnswer = await _surveyAnswerRepository.GetByIdAsync(cancellationToken, id);
-            offeredAnswer.IsDelete = true;
-            offeredAnswer.DeleteDate = DateTime.Now;
-            await _surveyAnswerRepository.DeleteAsync(offeredAnswer, cancellationToken);
+            var surveyAnswer = await _surveyAnswerRepository.GetByIdAsync(cancellationToken, id);
+            surveyAnswer.IsDelete = true;
+            surveyAnswer.DeleteDate = DateTime.Now;
+            await _surveyAnswerRepository.DeleteAsync(surveyAnswer, cancellationToken);
             return Ok();
         }
 

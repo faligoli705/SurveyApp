@@ -14,7 +14,6 @@ namespace SurveyApp.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [AllowAnonymous]
     [Authorize(Roles = "d9d82ea5-9155-eb11-9f34-8c736eabd2f2")] //persone
 
 

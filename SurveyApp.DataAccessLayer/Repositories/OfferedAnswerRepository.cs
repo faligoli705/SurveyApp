@@ -26,5 +26,15 @@ namespace SurveyApp.DataAccessLayer.Repositories
             await base.AddAsync(offeredAnswers, cancellationToken);
 
         }
+        public async Task DeleteAsync(OfferedAnswers offeredAnswers, CancellationToken cancellationToken)
+        {
+            var exists = await TableNoTracking.AnyAsync(p => p.Id == offeredAnswers.Id && p.IsDelete==true);
+            if (exists)
+                throw new BadRequestException("قبلا حذف شده است");
+            offeredAnswers.IsDelete = true;
+            offeredAnswers.DeleteDate = DateTime.Now;
+            await base.DeleteAsync(offeredAnswers, cancellationToken);
+        }
+
     }
 }
