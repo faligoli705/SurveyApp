@@ -53,8 +53,6 @@ namespace SurveyApp.WebFramework.Configuration
 
         public static void AddJwtAuthentication(this IServiceCollection services,JwtSettings jwtSettings)
         {
-           
-
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -77,7 +75,7 @@ namespace SurveyApp.WebFramework.Configuration
                     RequireExpirationTime = true,
                     ValidateLifetime = true,
 
-                    ValidateAudience = true, //default : false
+                    ValidateAudience = false, //default : false
                     ValidAudience = "jwtSettings:Audience",
 
                     ValidateIssuer = true, //default : false
@@ -143,7 +141,23 @@ namespace SurveyApp.WebFramework.Configuration
                     }
                 };
             });
+            services.AddCors(options =>
+            {
+                options.AddPolicy("EnableCors", builder =>
+                {
+                    builder.AllowAnyOrigin()
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .WithOrigins("https://localhost:44385")
+                     .SetIsOriginAllowed(origin => true)
+                    .AllowCredentials()
+                    .Build();
+
+                });
+            });
+
         }
+
 
         public static void AddServices(this IServiceCollection services, IConfiguration configuration) //#A
         {

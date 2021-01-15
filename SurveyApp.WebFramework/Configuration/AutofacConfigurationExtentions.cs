@@ -21,6 +21,7 @@ namespace SurveyApp.WebFramework.Configuration
             services.AddScoped(typeof(ICategoryRepository), typeof(CategoryRepository));
             services.AddScoped(typeof(IQuestionRepository), typeof(QuestionRepository));
             services.AddScoped(typeof(ISurveyAnswerRepository), typeof(SurveyAnswerRepository));
+            services.AddScoped(typeof(IAuthenRepository), typeof(AuthenRepository));
         }
             //    //RegisterType > As > Liftetime
             //    //containerBuilder.RegisterGeneric(typeof(BaseRepository<>)).As(typeof(IBaseRepository<>)).InstancePerLifetimeScope();

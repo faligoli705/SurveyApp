@@ -29,8 +29,8 @@ namespace SurveyApp.Services
         public async Task<AccessToken> GenerateAsync(Users user)
         {
 
-            var secretKey = Encoding.UTF8.GetBytes("jwtSettings:SecretKey");
-            var encryptionKey = Encoding.UTF8.GetBytes("jwtSettings:EncryptKey");
+            var secretKey = Encoding.UTF8.GetBytes("LongerThan-16Char-SecretKey");
+            var encryptionKey = Encoding.UTF8.GetBytes("16CharEncryptKey");
             var signingCredentials = new SigningCredentials(new SymmetricSecurityKey(secretKey), SecurityAlgorithms.HmacSha256Signature);
             //var encryptionkey = Encoding.UTF8.GetBytes(_siteSetting.JwtSettings.EncryptKey); //must be 16 character
             var encryptingCredentials = new EncryptingCredentials(new SymmetricSecurityKey(encryptionKey), SecurityAlgorithms.Aes128KW, SecurityAlgorithms.Aes128CbcHmacSha256);

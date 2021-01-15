@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.Http;
+using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -57,7 +59,7 @@ namespace SurveyApp.Controllers
 
 
         [HttpGet]
-        [Authorize(Roles = "9f998266-8455-eb11-9f34-8c736eabd2f2")]
+        //[Authorize(Roles = "9f998266-8455-eb11-9f34-8c736eabd2f2")]
         public virtual async Task<ActionResult<List<Users>>> Get(CancellationToken cancellationToken)
         {
             //var userName = HttpContext.User.Identity.GetUserName();
@@ -72,7 +74,7 @@ namespace SurveyApp.Controllers
         }
 
         [HttpGet("{id:int}")]
-        [Authorize(Roles = "9f998266-8455-eb11-9f34-8c736eabd2f2")]
+        //[Authorize(Roles = "9f998266-8455-eb11-9f34-8c736eabd2f2")]
         public virtual async Task<ApiResult<Users>> Get(int id, CancellationToken cancellationToken)
         {
             var user2 = await _userManager.FindByIdAsync(id.ToString());
@@ -131,14 +133,14 @@ namespace SurveyApp.Controllers
 
             var user = new Users
             {
-                Id=Guid.NewGuid(),
+                Id = Guid.NewGuid(),
                 FName = userDto.FName,
                 LName = userDto.LName,
                 Gender = userDto.Gender,
                 RoleId = userDto.RoleId,                         //سطح دسترسی توسط ادمین مشخص میشود بصورت پیش فرض کاربر عادی
                 UserName = userDto.UserName,
                 Email = userDto.EmailUser,
-                CreateDate=DateTime.Now
+                CreateDate = DateTime.Now
             };
             var result = await _userManager.CreateAsync(user, userDto.UserPassword);
             //var result2 = await _roleManager.CreateAsync(new Roles
@@ -183,6 +185,6 @@ namespace SurveyApp.Controllers
             await _userRepository.DeleteAsync(user, cancellationToken);
             return Ok();
         }
- 
+
     }
 }
