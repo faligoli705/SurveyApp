@@ -159,7 +159,7 @@ namespace SurveyApp.WebFramework.Configuration
         {
             services.RegisterAssemblyPublicNonGenericClasses()
             .Where(x => x.Name.EndsWith("services"))  //optional
-            .AsPublicImplementedInterfaces(ServiceLifetime.Scoped);//این برای چه  کاری؟
+            .AsPublicImplementedInterfaces(ServiceLifetime.Scoped);
 
         }
     }

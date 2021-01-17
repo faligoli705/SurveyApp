@@ -8,7 +8,7 @@ namespace SurveyApp.Models
 {
     public class TokenRequest
     {
-        [Required]//نام و پس رو تو پست من وارد کن
+        [Required]
         public string grant_type { get; set; }
         public string username { get; set; }
         public string password { get; set; }
