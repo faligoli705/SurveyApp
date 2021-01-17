@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using SurveyApp.DataAccessLayer.Contracts;
 using SurveyApp.DataAccessLayer.Repositories;
 using SurveyApp.DomainClass.Entities;
 using SurveyApp.Infrastucture.Utilities;
@@ -10,8 +10,6 @@ using SurveyApp.Models;
 using SurveyApp.WebFramework.Api;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -22,7 +20,7 @@ namespace SurveyApp.Controllers
     /// </summary>
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    [Authorize(Roles = "Admin")] 
     //[AllowAnonymous]
     public class CategoryController : BaseController
     {
@@ -40,16 +38,19 @@ namespace SurveyApp.Controllers
             this._logger = logger;
         }
 
+        [HttpGet]
+        public virtual async Task<ActionResult<List<SurveyCategoryDto>>> Get(CancellationToken cancellationToken)
+        {
+             var categories = await _categoyRepository.TableNoTracking.ToListAsync(cancellationToken);
+            return Ok(categories);
+        }
+
 
         [HttpPost]
-        [Authorize(Roles ="person")] //persone
-
-        public virtual async Task<ApiResult<SurveyCategory>> Create(SurveyCategoryDto categoryDto, CancellationToken cancellationToken)
+         public virtual async Task<ApiResult<SurveyCategory>> Create(SurveyCategoryDto categoryDto, CancellationToken cancellationToken)
         {
             _logger.LogError("متد Create فراخوانی شد");
-            var userId = HttpContext.User.Identity.GetUserId();
-
-            var category = new SurveyCategory
+             var category = new SurveyCategory
             {
                 //UserId = Convert.ToInt32(userId),
                 Pid=categoryDto.Pid,
@@ -62,8 +63,7 @@ namespace SurveyApp.Controllers
         }
 
         [HttpPut]
-        [Authorize(Roles = "d9d82ea5-9155-eb11-9f34-8c736eabd2f2")]
-        public virtual async Task<ApiResult> Update(int id, SurveyCategory surveyCategory, CancellationToken cancellationToken)
+         public virtual async Task<ApiResult> Update(int id, SurveyCategory surveyCategory, CancellationToken cancellationToken)
         {
 
             var updateCategory = await _categoyRepository.GetByIdAsync(cancellationToken, id);
@@ -76,8 +76,7 @@ namespace SurveyApp.Controllers
         }
 
         [HttpDelete]
-        [Authorize(Roles = "d9d82ea5-9155-eb11-9f34-8c736eabd2f2")]
-        public virtual async Task<ApiResult> Delete(int id, CancellationToken cancellationToken)
+         public virtual async Task<ApiResult> Delete(int id, CancellationToken cancellationToken)
         {
             var category = await _categoyRepository.GetByIdAsync(cancellationToken, id);
             category.IsDelete = true;

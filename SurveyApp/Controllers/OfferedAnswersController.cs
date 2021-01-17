@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using SurveyApp.DataAccessLayer.Contracts;
 using SurveyApp.DataAccessLayer.Repositories;
@@ -9,6 +10,7 @@ using SurveyApp.Infrastucture.Utilities;
 using SurveyApp.Models;
 using SurveyApp.WebFramework.Api;
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -17,7 +19,7 @@ namespace SurveyApp.Controllers
     [Route("api/[controller]")]
     [ApiController]
     //[AllowAnonymous]
-    [Authorize]
+    [Authorize(Roles = "admin")]
 
     public class OfferedAnswersController : BaseController
     {
@@ -35,13 +37,17 @@ namespace SurveyApp.Controllers
             this._logger = logger;
         }
 
+        [HttpGet]
+        public virtual async Task<ActionResult<List<OfferedAnswersDto>>> Get(CancellationToken cancellationToken)
+        {
+            var offeredAnswer = await _offeredAnswerRepository.TableNoTracking.ToListAsync(cancellationToken);
+            return Ok(offeredAnswer);
+        }
 
         [HttpPost]
-        [Authorize(Roles = "d9d82ea5-9155-eb11-9f34-8c736eabd2f2")]
         public virtual async Task<ApiResult<OfferedAnswers>> Create(OfferedAnswersDto offeredAnswersDto, CancellationToken cancellationToken)
         {
-            var userId = HttpContext.User.Identity.GetUserId();
-
+ 
             _logger.LogError("متد Create فراخوانی شد");
 
             var offeredAnswers = new OfferedAnswers
@@ -55,7 +61,6 @@ namespace SurveyApp.Controllers
         }
 
         [HttpPut]
-        [Authorize(Roles = "d9d82ea5-9155-eb11-9f34-8c736eabd2f2")]
         public virtual async Task<ApiResult> Update(int id, OfferedAnswers offeredAnswers, CancellationToken cancellationToken)
         {
             var updateOffered = await _offeredAnswerRepository.GetByIdAsync(cancellationToken, id);
@@ -67,7 +72,6 @@ namespace SurveyApp.Controllers
 
         [HttpDelete]
         //[Authorize(Roles = "d9d82ea5-9155-eb11-9f34-8c736eabd2f2")]
-        [AllowAnonymous]
         public virtual async Task<ApiResult> Delete(int id, CancellationToken cancellationToken)
         {
             var offeredAnswer = await _offeredAnswerRepository.GetByIdAsync(cancellationToken, id);

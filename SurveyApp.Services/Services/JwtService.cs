@@ -14,26 +14,26 @@ using System.Threading.Tasks;
 
 namespace SurveyApp.Services
 {
-    public class JwtService : IJwtService, IScopedDependency
+    public class JwtService : IScopedDependency, IJwtService
     {
-        private readonly SiteSetting _siteSetting;
         private readonly JwtSettings _jwtSettings;
         private readonly SignInManager<Users> signInManager;
 
-        public JwtService(IOptionsSnapshot<SiteSetting> settings, SignInManager<Users> signInManager)
+        public JwtService(IOptionsSnapshot<JwtSettings> jwtSettings, SignInManager<Users> signInManager)
         {
-            _siteSetting = settings.Value;
+            _jwtSettings = jwtSettings.Value;
+
             this.signInManager = signInManager;
         }
 
         public async Task<AccessToken> GenerateAsync(Users user)
         {
-
-            var secretKey = Encoding.UTF8.GetBytes("LongerThan-16Char-SecretKey");
-            var encryptionKey = Encoding.UTF8.GetBytes("16CharEncryptKey");
+            var secretKey = Encoding.UTF8.GetBytes("LongerThan-16Char-SecretKey"); // longer that 16 character
             var signingCredentials = new SigningCredentials(new SymmetricSecurityKey(secretKey), SecurityAlgorithms.HmacSha256Signature);
-            //var encryptionkey = Encoding.UTF8.GetBytes(_siteSetting.JwtSettings.EncryptKey); //must be 16 character
-            var encryptingCredentials = new EncryptingCredentials(new SymmetricSecurityKey(encryptionKey), SecurityAlgorithms.Aes128KW, SecurityAlgorithms.Aes128CbcHmacSha256);
+
+            var encryptionkey = Encoding.UTF8.GetBytes("16CharEncryptKey"); //must be 16 character
+            var encryptingCredentials = new EncryptingCredentials(new SymmetricSecurityKey(encryptionkey), SecurityAlgorithms.Aes128KW, SecurityAlgorithms.Aes128CbcHmacSha256);
+
             var claims = await _getClaimsAsync(user);
 
             var descriptor = new SecurityTokenDescriptor
@@ -41,30 +41,41 @@ namespace SurveyApp.Services
                 Issuer = "MyWebsite",
                 Audience = "MyWebsite",
                 IssuedAt = DateTime.Now,
-                NotBefore = DateTime.Now.AddMinutes(2),
+                NotBefore = DateTime.Now.AddMinutes(0),
                 Expires = DateTime.Now.AddMinutes(30),
                 SigningCredentials = signingCredentials,
                 EncryptingCredentials = encryptingCredentials,
                 Subject = new ClaimsIdentity(claims)
             };
+
+            //JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+            //JwtSecurityTokenHandler.DefaultMapInboundClaims = false;
+            //JwtSecurityTokenHandler.DefaultOutboundClaimTypeMap.Clear();
+
             var tokenHandler = new JwtSecurityTokenHandler();
+
             var securityToken = tokenHandler.CreateJwtSecurityToken(descriptor);
+
             return new AccessToken(securityToken);
         }
 
         private async Task<IEnumerable<Claim>> _getClaimsAsync(Users user)
         {
-            //var result = await signInManager.ClaimsFactory.CreateAsync(user);
-            //add custom claims
-            //var list = new List<Claim>(result.Claims);
-            //list.Add(new Claim(ClaimTypes.MobilePhone, "09123456987")); 
-            var list = new List<Claim>
-            {
-                new Claim(ClaimTypes.Name,user.UserName),
-                new Claim(ClaimTypes.NameIdentifier,user.Id.ToString()),
-                new Claim(ClaimTypes.Name,user.PasswordHash)
-            };
-             return list;
+            var result = await signInManager.ClaimsFactory.CreateAsync(user);
+            //   add custom claims
+            var securityStampClaimType = new ClaimsIdentityOptions().SecurityStampClaimType;
+
+            var list = new List<Claim>{
+            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+            new Claim(ClaimTypes.Name, user.FName),
+            new Claim(securityStampClaimType, user.SecurityStamp.ToString())
+             };
+
+            var roles = new Roles[] { new Roles { Name = "Admin" } };
+            foreach (var role in roles)
+                list.Add(new Claim(ClaimTypes.Role, role.Name));
+             
+            return list;
         }
     }
 }

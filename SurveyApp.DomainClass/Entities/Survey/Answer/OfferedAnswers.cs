@@ -11,6 +11,7 @@ namespace SurveyApp.DomainClass.Entities
     {
         [MaxLength(300)]
         public string OfferedAnswerText { get; set; }
+        public Int32 SurveyQuestionsAnswerId { get; set; }
 
 
     }

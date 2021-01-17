@@ -9,7 +9,7 @@ namespace SurveyApp.DomainClass.Entities
 {
    public class SurveyQuestionsAnswer: BaseEntities<Int32>
     {       
-        public Guid UserId { get; set; }
+        public int UserId { get; set; }
         public int? QuestionId { get; set; }
         public int? OfferedAnswerId { get; set; }
 

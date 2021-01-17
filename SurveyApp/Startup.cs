@@ -1,19 +1,14 @@
 
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.IdentityModel.Tokens;
-using SurveyApp.DataAccessLayer;
-using SurveyApp.DataAccessLayer.Contracts;
-using SurveyApp.DataAccessLayer.Repositories;
 using SurveyApp.Infrastucture;
 using SurveyApp.Services;
 using SurveyApp.WebFramework.Configuration;
 using SurveyApp.WebFramework.CustomMapping;
-using SurveyApp.WebFramework.Middlewares;
 using System.Text;
+using WebFramework.Middlewares;
 using WebFramework.Swagger;
 
 namespace SurveyApp
@@ -36,7 +31,7 @@ namespace SurveyApp
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.Configure<SiteSetting>(Configuration.GetSection(nameof(SiteSetting)));
+            services.Configure<JwtService>(Configuration.GetSection(nameof(JwtService)));
             services.InitializeAutoMapper();
             services.AddServices();
             services.AddDbContext(Configuration);
@@ -59,10 +54,10 @@ namespace SurveyApp
             app.UseHttpsRedirection();
             app.UseSwaggerAndUI();
             app.UseRouting();
-            app.UseAuthentication();
             app.UseCors("EnableCors");
+            app.UseAuthentication();
             app.UseAuthorization();
-
+            //app.UseMvc();
             app.UseEndpoints(config =>
             {
                 config.MapControllers(); // Map attribute routing

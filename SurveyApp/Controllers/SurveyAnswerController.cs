@@ -18,9 +18,7 @@ namespace SurveyApp.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [AllowAnonymous]
-    //[Authorize]
-
+    [Authorize(Roles = "user")]
     public class SurveyAnswerController : BaseController
     {
         private readonly ISurveyAnswerRepository _surveyAnswerRepository;
@@ -37,13 +35,19 @@ namespace SurveyApp.Controllers
             this._logger = logger;
         }
 
+        [HttpGet]
+        public virtual async Task<ActionResult<List<SurveyAnswerDto>>> Get(CancellationToken cancellationToken)
+        {
+
+            var surveyAnswers = await _surveyAnswerRepository.TableNoTracking.ToListAsync(cancellationToken);
+            return Ok(surveyAnswers);
+        }
+
 
         [HttpPost]
-        [Authorize]
         public virtual async Task<ApiResult<SurveyAnswer>> Create(SurveyAnswerDto surveyAnswerDto, CancellationToken cancellationToken)
         {
             _logger.LogError("متد Create فراخوانی شد");
-            var userId = HttpContext.User.Identity.GetUserId();
 
             var surveyAnswer = new SurveyAnswer
             {
@@ -59,13 +63,16 @@ namespace SurveyApp.Controllers
         }
 
         [HttpPut]
-        [Authorize]
         public virtual async Task<ApiResult> Update(int id, SurveyAnswer surveyAnswer, CancellationToken cancellationToken)
         {
             var exists = await _surveyAnswerRepository.TableNoTracking.AnyAsync(p => p.UserId == surveyAnswer.UserId
                                                                                 && p.QuestionId == surveyAnswer.QuestionId);
             if (exists)
                 return BadRequest("شما قبلا به این سوال پاسخ دادید");
+
+            var noAnswer = await _surveyAnswerRepository.TableNoTracking.AnyAsync(p => p.UserId == surveyAnswer.UserId && surveyAnswer.OfferedAnswers == null);
+            if (!noAnswer)
+                return BadRequest("به سوال پاسخ ندادی ");
 
 
             var updateSurveyAnswer = await _surveyAnswerRepository.GetByIdAsync(cancellationToken, id);
@@ -78,7 +85,7 @@ namespace SurveyApp.Controllers
         }
 
         [HttpDelete]
-        [Authorize(Roles = "d9d82ea5-9155-eb11-9f34-8c736eabd2f2")] //persone
+        [Authorize(Roles = "admin")]
         public virtual async Task<ApiResult> Delete(int id, CancellationToken cancellationToken)
         {
             var surveyAnswer = await _surveyAnswerRepository.GetByIdAsync(cancellationToken, id);

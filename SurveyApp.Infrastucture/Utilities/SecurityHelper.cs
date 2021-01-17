@@ -8,6 +8,9 @@ namespace SurveyApp.Infrastucture.Utilities
     {
         public static string GetSha256Hash(string input)
         {
+            if (input == null)
+                return null;
+
             //using (var sha256 = new SHA256CryptoServiceProvider())
             using (var sha256 = SHA256.Create())
             {

@@ -24,6 +24,11 @@ namespace SurveyApp.DataAccessLayer.Repositories
             var exists = await TableNoTracking.AnyAsync(p => p.QuestionText == surveyQuestion.QuestionText);
             if (exists)
                 throw new BadRequestException("سوال تکراری است");
+
+         var userCount= TableNoTracking.Where(q => q.Users.Id == surveyQuestion.UsersId && q.IsDelete==false).Count();
+            if(userCount==10)
+                throw new BadRequestException("شما نمی توانید بیشتر از 10 سوال ایجاد کنید. لطفا یکی از سوالها را حذف کنید");
+
             await base.AddAsync(surveyQuestion, cancellationToken);
 
         }

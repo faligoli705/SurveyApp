@@ -26,7 +26,7 @@ namespace SurveyApp.Infrastucture.Utilities
         public static T GetUserId<T>(this IIdentity identity) where T : IConvertible
         {
             var userId = identity?.GetUserId();
-            return userId.HasValue()
+             return userId.HasValue()
                 ? (T)Convert.ChangeType(userId, typeof(T), CultureInfo.InvariantCulture)
                 : default(T);
         }

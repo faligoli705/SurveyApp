@@ -33,10 +33,7 @@ namespace WebSurveyApp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            services.AddHttpClient("ClientSurveyApp", client =>
-            {
-                client.BaseAddress = new Uri("https://localhost:44357");
-            });
+          
             InitServices(services);
             services.AddService();
             services.AddControllersWithViews();           

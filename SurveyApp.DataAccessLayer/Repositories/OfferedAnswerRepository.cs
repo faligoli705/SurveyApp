@@ -23,6 +23,12 @@ namespace SurveyApp.DataAccessLayer.Repositories
             var exists = await TableNoTracking.AnyAsync(p => p.OfferedAnswerText == offeredAnswers.OfferedAnswerText);
             if (exists)
                 throw new BadRequestException("جواب تکراری است");
+
+            var userCount = TableNoTracking.Where(q => q.SurveyQuestionsAnswerId == offeredAnswers.SurveyQuestionsAnswerId && q.IsDelete == false).Count();
+            if (userCount == 5)
+                throw new BadRequestException("شما نمیتوانید برای یک سوال بیش از 5 جواب داشته باشید");
+
+
             await base.AddAsync(offeredAnswers, cancellationToken);
 
         }

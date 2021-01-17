@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Net.Http;
-using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -23,9 +21,10 @@ namespace SurveyApp.Controllers
     /// <summary>
     /// 
     /// </summary>
+    [Route("api/[Controller]")]
     [ApiController]
     //[AllowAnonymous]
-    [Authorize]
+    [Authorize(Roles = "admin")]
     public class UserController : BaseController
     {
         private readonly IUserRepository _userRepository;
@@ -74,9 +73,10 @@ namespace SurveyApp.Controllers
         }
 
         [HttpGet("{id:int}")]
-        //[Authorize(Roles = "9f998266-8455-eb11-9f34-8c736eabd2f2")]
+        [Authorize(Roles = "admin")]
         public virtual async Task<ApiResult<Users>> Get(int id, CancellationToken cancellationToken)
         {
+
             var user2 = await _userManager.FindByIdAsync(id.ToString());
             var role = await _roleManager.FindByNameAsync("Admin");
 
@@ -96,29 +96,29 @@ namespace SurveyApp.Controllers
         /// <param name="tokenRequest">The information of token request</param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
+
         [HttpPost("[action]")]
         [AllowAnonymous]
         public virtual async Task<ActionResult> Token([FromForm] TokenRequest tokenRequest, CancellationToken cancellationToken)
         {
-            _logger.LogError("متد Token فراخوانی شد");
-
-
             if (!tokenRequest.grant_type.Equals("password", StringComparison.OrdinalIgnoreCase))
                 throw new Exception("OAuth flow is not password.");
 
             var user1 = await _userRepository.GetByUserAndPass(tokenRequest.username, tokenRequest.password, cancellationToken);
             var user = await _userManager.FindByNameAsync(tokenRequest.username);
-            var isPasswordValid = await _userManager.CheckPasswordAsync(user, tokenRequest.password);
-
-            //if (user1 == null)
-            //    throw new BadRequestException("نام کاربری یا رمز عبور اشتباه است");
             if (user == null)
-                throw new BadRequestException("نام کاربری یافت نشد");
+                throw new BadRequestException("نام کاربری یا رمز عبور اشتباه است");
+
+            var isPasswordValid = await _userManager.CheckPasswordAsync(user, tokenRequest.password);
             if (!isPasswordValid)
-                throw new BadRequestException("پسورد وارد شده اشتباه است");
+                throw new BadRequestException("نام کاربری یا رمز عبور اشتباه است");
+
+
+            //if (user == null)
+            //    throw new BadRequestException("نام کاربری یا رمز عبور اشتباه است");
 
             var jwt = await _jwtService.GenerateAsync(user);
-            return new JsonResult(user);
+            return new JsonResult(jwt);
         }
 
         [HttpPost]
@@ -133,24 +133,21 @@ namespace SurveyApp.Controllers
 
             var user = new Users
             {
-                Id = Guid.NewGuid(),
                 FName = userDto.FName,
                 LName = userDto.LName,
                 Gender = userDto.Gender,
-                RoleId = userDto.RoleId,                         //سطح دسترسی توسط ادمین مشخص میشود بصورت پیش فرض کاربر عادی
                 UserName = userDto.UserName,
                 Email = userDto.EmailUser,
                 CreateDate = DateTime.Now
             };
             var result = await _userManager.CreateAsync(user, userDto.UserPassword);
-            //var result2 = await _roleManager.CreateAsync(new Roles
-            //{
-            //    Name = "Admin",
-            //    Description = "admin role"
-            //});
-
-            var result3 = await _userManager.AddToRoleAsync(user, userDto.UserPassword);
-            await _userRepository.AddAsync(user, userDto.UserPassword, cancellationToken);
+            var result2 = await _roleManager.CreateAsync(new Roles
+            {
+                Name = "user",
+                Description = "user role"
+            });
+            var result3 = await _userManager.AddToRoleAsync(user, "user");
+            //await _userRepository.AddAsync(user, userDto.UserPassword, cancellationToken);
             return user;
         }
 
@@ -175,7 +172,7 @@ namespace SurveyApp.Controllers
         }
 
         [HttpDelete]
-        [Authorize(Roles = "9f998266-8455-eb11-9f34-8c736eabd2f2")]
+        [Authorize(Roles = "admin")]
 
         public virtual async Task<ApiResult> Delete(int id, CancellationToken cancellationToken)
         {

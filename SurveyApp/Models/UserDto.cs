@@ -8,9 +8,9 @@ namespace SurveyApp.Models
 {/// <summary>
 /// 
 /// </summary>
-    public class UserDto : BaseDto<UserDto, Users, Guid>, IValidatableObject
+    public class UserDto : BaseDto<UserDto, Users,int>, IValidatableObject
     {
-        public Guid RoleId { get; set; }
+        public int RoleId { get; set; }
         [Required]
         public string FName { get; set; }
         [Required]

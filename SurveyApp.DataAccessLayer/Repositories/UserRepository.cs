@@ -28,7 +28,7 @@ namespace SurveyApp.DataAccessLayer
 
         public Task UpdateSecurityStampAsync(Users user, CancellationToken cancellationToken)
         {
-            //user.SecurityStamp = Guid.NewGuid();
+            user.SecurityStamp = Guid.NewGuid().ToString();
             return UpdateAsync(user, cancellationToken);
         }
 

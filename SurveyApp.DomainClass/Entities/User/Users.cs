@@ -7,14 +7,14 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SurveyApp.DomainClass.Entities
 {
-    public class Users :  IdentityUser<Guid>, IEntity<Guid>
+    public class Users :  IdentityUser<int>, IEntity<int>
     {
         public Users()
         {
             IsActive = true;
             //SecurityStamp = Guid.NewGuid();
         }
-        public Guid RoleId { get; set; }
+        public int RoleId { get; set; }
         [Required]
         [MaxLength(100)]
         public string FName { get; set; }

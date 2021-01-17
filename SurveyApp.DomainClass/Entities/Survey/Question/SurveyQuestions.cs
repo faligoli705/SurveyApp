@@ -11,7 +11,8 @@ namespace SurveyApp.DomainClass.Entities
    public class SurveyQuestions: BaseEntities<Int32>,IEntity<Int32>
     {
         public Int32 SurveyId { get; set; }
-        public Guid? RoleId { get; set; }
+        public int? RoleId { get; set; }
+        public int? UsersId { get; set; }
         [Required]
         [MaxLength(300)]
         public string QuestionText { get; set; }

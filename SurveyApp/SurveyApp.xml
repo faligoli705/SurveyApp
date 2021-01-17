@@ -4,24 +4,6 @@
         <name>SurveyApp</name>
     </assembly>
     <members>
-        <member name="T:SurveyApp.Controllers.AuthenController">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="M:SurveyApp.Controllers.AuthenController.#ctor(SurveyApp.DataAccessLayer.IAuthenRepository,Microsoft.Extensions.Logging.ILogger{SurveyApp.Controllers.AuthenController})">
-            <summary>
-            
-            </summary>
-            <param name="authen"></param>
-        </member>
-        <member name="M:SurveyApp.Controllers.AuthenController.PostLogin(SurveyApp.Models.LoginDto)">
-            <summary>
-            لاگین شدن و اعتبار سنجی کاربر
-            </summary>
-            <param></param>
-            <returns></returns>
-        </member>
         <member name="T:SurveyApp.Controllers.CategoryController">
             <summary>
             

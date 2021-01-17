@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -7,6 +8,8 @@ using Newtonsoft.Json;
 using SurveyApp.Infrastucture.Utilities;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IdentityModel.Tokens.Jwt;
+using System.IO;
 using System.Net.Http;
 using System.Security.Claims;
 using System.Text;
@@ -28,7 +31,6 @@ namespace WebSurveyApp.Controllers
             _logger = logger;
         }
         [AllowAnonymous]
-
         public IActionResult Login(UserDto login)
         {
             if (!ModelState.IsValid)
@@ -38,9 +40,17 @@ namespace WebSurveyApp.Controllers
             var content = new StringContent(jsonBody, Encoding.UTF8, "application/json");
  
             var response = client.PostAsync("/Api/Authen", content).Result;
+
+            var receiveStream = response.Content.ReadAsStringAsync().Result.Split("\"")[1].Split("\"")[0];
+
+            var handler = new JwtSecurityTokenHandler();
+            var jsonToken = handler.ReadToken(receiveStream);
+            var tokenS = handler.ReadToken(receiveStream) as JwtSecurityToken;
+            var tokensss = tokenS.Claims as List<Claim>; 
             if (response.IsSuccessStatusCode)
             {
                 var token = response.Content.ReadAsAsync<TokenRequest>().Result;
+                var a = response.Content.ReadAsAsync<object>().Result;
                 var claims = new List<Claim>()
                     {
                          new Claim(ClaimTypes.NameIdentifier,login.UserName),

@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using SurveyApp.DataAccessLayer.Contracts;
 using SurveyApp.DataAccessLayer.Repositories;
 using SurveyApp.DomainClass.Entities;
+using SurveyApp.Infrastucture.Utilities;
 using SurveyApp.Models;
 using SurveyApp.WebFramework.Api;
 using System;
@@ -22,7 +23,7 @@ namespace SurveyApp.Controllers
     [Route("api/[controller]")]
     [ApiController]
     //[AllowAnonymous]
-    [Authorize(Roles = "d9d82ea5-9155-eb11-9f34-8c736eabd2f2")] //persone
+    [Authorize(Roles = "Admin")]
 
 
     public class SurveyQuestionController : BaseController
@@ -47,18 +48,17 @@ namespace SurveyApp.Controllers
         public virtual async Task<ApiResult<SurveyQuestions>> Create(SurveyQuestionsDto questionDto, CancellationToken cancellationToken)
         {
             _logger.LogError("متد Create فراخوانی شد");
-            //var allowedToAskQuestions = await _questionRepository.TableNoTracking.AnyAsync(p => p.RoleId == questionDto.QuestionText);
-            //if (exists)
-            //    return BadRequest("نام کاربری تکراری است");
+            var userIdInt = HttpContext.User.Identity.GetUserId<int>();
 
             var exists = await _questionRepository.TableNoTracking.AnyAsync(p => p.QuestionText == questionDto.QuestionText);
             if (exists)
-                return BadRequest("نام کاربری تکراری است");
+                return BadRequest("سوال تکراری است");
 
 
             var question = new SurveyQuestions
             {
-                QuestionText = questionDto.QuestionText,
+                UsersId= userIdInt,
+                 QuestionText = questionDto.QuestionText,
                 SurveyId = questionDto.SurveyId,
                 QuestionExpiresOnDate = questionDto.QuestionExpiresOnDate,
                 PublishedDate = questionDto.PublishedDate,

@@ -30,20 +30,18 @@ namespace WebSurveyApp.Configuration
         public static void AddJwtAuthentication(this IServiceCollection services)
         {
 
-            //services.AddHttpClient("ClientSurveyApp", client =>
-            //{
-            //    client.BaseAddress = new Uri("https://localhost:44357");
-            //});
-            services.AddAuthentication(options =>
+            services.AddHttpClient("ClientSurveyApp", client =>
             {
-                services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                client.BaseAddress = new Uri("https://localhost:44357");
+            });
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
                 {
                     options.LoginPath = "/Home/Login";
                     options.LogoutPath = "/Home/SignOut";
                     options.Cookie.Name = "User.Coo";
                 });
-            });
+            
         }
     }
 }

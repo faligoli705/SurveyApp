@@ -25,20 +25,31 @@ namespace SurveyApp.WebFramework.Configuration
 {
     public static class ServiceCollectionExtensions
     {
- 
+
         public static void AddDbContext(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<SurveyAppDbContext>(options =>
             {
                 options
                     .UseSqlServer(configuration.GetConnectionString("SqlServerSurvey"));
-            });           
+            });
         }
 
         public static void AddMinimalMvc(this IServiceCollection services)
         {
-            services.AddControllers(options =>
+            //services.AddControllers(options =>
+            //{
+            //    options.Filters.Add(new AuthorizeFilter()); //Apply AuthorizeFilter as global filter to all actions
+
+            //}).AddNewtonsoftJson(option =>
+            //{
+            //    option.SerializerSettings.Converters.Add(new StringEnumConverter());
+            //    option.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            //});
+
+            services.AddMvc(options =>
             {
+                //options.EnableEndpointRouting = false;
                 options.Filters.Add(new AuthorizeFilter()); //Apply AuthorizeFilter as global filter to all actions
 
             }).AddNewtonsoftJson(option =>
@@ -51,7 +62,7 @@ namespace SurveyApp.WebFramework.Configuration
 
         }
 
-        public static void AddJwtAuthentication(this IServiceCollection services,JwtSettings jwtSettings)
+        public static void AddJwtAuthentication(this IServiceCollection services, JwtSettings jwtSettings)
         {
             services.AddAuthentication(options =>
             {
@@ -60,10 +71,10 @@ namespace SurveyApp.WebFramework.Configuration
                 options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
             }).AddJwtBearer(options =>
             {
-                
-                var secretKey = Encoding.UTF8.GetBytes("jwtSettings:SecretKey");
-                var encryptionKey = Encoding.UTF8.GetBytes("jwtSettings:EncryptKey");
-
+                //var secretKey = Encoding.UTF8.GetBytes(jwtSettings.SecretKey);
+                //  var encryptionKey = Encoding.UTF8.GetBytes(jwtSettings.EncryptKey);
+                var secretKey = Encoding.UTF8.GetBytes("LongerThan-16Char-SecretKey");
+                var encryptionKey = Encoding.UTF8.GetBytes("16CharEncryptKey");
                 var validationParameters = new TokenValidationParameters
                 {
                     ClockSkew = TimeSpan.Zero, // default: 5 min
@@ -75,12 +86,12 @@ namespace SurveyApp.WebFramework.Configuration
                     RequireExpirationTime = true,
                     ValidateLifetime = true,
 
-                    ValidateAudience = false, //default : false
-                    ValidAudience = "jwtSettings:Audience",
+                    ValidateAudience = true, //default : false
+                    ValidAudience = "MyWebsite",
 
                     ValidateIssuer = true, //default : false
-                    ValidIssuer = "jwtSettings:Issuer",
- 
+                    ValidIssuer = "MyWebsite",
+
                     TokenDecryptionKey = new SymmetricSecurityKey(encryptionKey)
                 };
 
@@ -141,21 +152,6 @@ namespace SurveyApp.WebFramework.Configuration
                     }
                 };
             });
-            services.AddCors(options =>
-            {
-                options.AddPolicy("EnableCors", builder =>
-                {
-                    builder.AllowAnyOrigin()
-                    .AllowAnyHeader()
-                    .AllowAnyMethod()
-                    .WithOrigins("https://localhost:44385")
-                     .SetIsOriginAllowed(origin => true)
-                    .AllowCredentials()
-                    .Build();
-
-                });
-            });
-
         }
 
 
@@ -163,7 +159,7 @@ namespace SurveyApp.WebFramework.Configuration
         {
             services.RegisterAssemblyPublicNonGenericClasses()
             .Where(x => x.Name.EndsWith("services"))  //optional
-            .AsPublicImplementedInterfaces(ServiceLifetime.Scoped);
+            .AsPublicImplementedInterfaces(ServiceLifetime.Scoped);//این برای چه  کاری؟
 
         }
     }
